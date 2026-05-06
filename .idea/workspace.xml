@@ -4,31 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/Common/AckTracker/AckTracker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/Common/CryoBinaryMessage/CryoFrameFormatter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/Common/CryoBuffer/CryoBuffer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/Common/CryoEventEmitter/CryoEventEmitter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/Common/CryoFrameInspector/CryoFrameInspector.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/Common/CryptoHelper/CryptoHelper.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/Common/Util/CreateDebugLogger.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/Common/Util/Guard.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/CryoClientWebsocketSession/CryoClientWebsocketSession.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/CryoClientWebsocketSession/CryoCryptoBox.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/CryoClientWebsocketSession/CryoFrameRouter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/CryoClientWebsocketSession/CryoHandshakeEngine.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/typings/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dist/typings/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/CryoBinaryMessage/CryoFrameFormatter.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/CryoEventEmitter/CryoEventEmitter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoEventEmitter/CryoEventEmitter.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/CryptoHelper/CryptoHelper.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-    </list>
+    <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -186,6 +162,7 @@
       <workItem from="1777984848573" duration="12000" />
       <workItem from="1777995512289" duration="1714000" />
       <workItem from="1778055833130" duration="2560000" />
+      <workItem from="1778059492929" duration="92000" />
     </task>
     <servers />
   </component>

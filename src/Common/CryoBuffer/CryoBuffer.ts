@@ -79,6 +79,6 @@ export class CryoBuffer {
     }
 
     public get byteLength(): number {
-        return this.byteLength;
+        return this.buffer.byteLength;
     }
 }
