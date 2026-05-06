@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="" />
+    <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/typings/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dist/typings/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -163,6 +170,21 @@
       <workItem from="1777995512289" duration="1714000" />
       <workItem from="1778055833130" duration="2560000" />
       <workItem from="1778059492929" duration="92000" />
+      <workItem from="1778060149730" duration="58000" />
+      <workItem from="1778060303224" duration="33000" />
+      <workItem from="1778060546558" duration="197000" />
+      <workItem from="1778060936331" duration="5000" />
+      <workItem from="1778061044275" duration="39000" />
+      <workItem from="1778061136281" duration="15000" />
+      <workItem from="1778061209488" duration="121000" />
+      <workItem from="1778061345338" duration="11000" />
+      <workItem from="1778061363228" duration="184000" />
+      <workItem from="1778061557803" duration="13000" />
+      <workItem from="1778061594395" duration="3000" />
+      <workItem from="1778061603574" duration="1000" />
+      <workItem from="1778061635137" duration="18000" />
+      <workItem from="1778061706764" duration="47000" />
+      <workItem from="1778061770930" duration="7000" />
     </task>
     <servers />
   </component>

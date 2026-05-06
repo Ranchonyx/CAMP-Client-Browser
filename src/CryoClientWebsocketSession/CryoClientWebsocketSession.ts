@@ -36,6 +36,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     private server_ack_tracker: AckTracker = new AckTracker();
     private streams: Map<number, Stream> = new Map();
 
+    private bytes_tx: number = 0;
+    private bytes_rx: number = 0;
+
     private current_ack = 0;
     private current_txid = 0;
 
@@ -172,6 +175,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     * */
     private async routeFrame(frame: Buffer): Promise<void> {
         const type = BufferUtil.GetType(frame);
+        this.bytes_rx += frame.byteLength;
 
         switch (type) {
             case BinaryMessageType.PING_PONG:
@@ -230,6 +234,8 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         } catch (ex) {
             if (ex instanceof Error)
                 await this.HandleWSError(ex);
+        } finally {
+            this.bytes_tx += outgoing_message.byteLength;
         }
 
         this.log(`Sent ${CryoFrameInspector.Inspect(outgoing_message)} to server.`);
@@ -479,5 +485,26 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
      * */
     public get session_id(): UUID {
         return this.sid;
+    }
+
+    /**
+     * Retrieve ewma RTT
+     * */
+    public get rtt() {
+        return this.server_ack_tracker.rtt;
+    }
+
+    /**
+     * Retrieve bytes transmitted
+     * */
+    public get tx() {
+        return this.bytes_tx;
+    }
+
+    /**
+     * Retrieve bytes received
+     * */
+    public get rx() {
+        return this.bytes_rx;
     }
 }
