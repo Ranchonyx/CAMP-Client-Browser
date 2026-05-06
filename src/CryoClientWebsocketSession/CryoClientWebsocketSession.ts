@@ -117,30 +117,31 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         let back_off_delay = 5000;
 
         //If the connection was not normally closed, try to reconnect
-        console.error(`Abnormal termination of Websocket connection, attempting to reconnect...`);
-        ///@ts-expect-error
-        this.socket = null;
+        if (code !== CloseCode.CLOSE_GRACEFUL) {
+            console.error(`Abnormal termination of Websocket connection, attempting to reconnect...`);
+            ///@ts-expect-error
+            this.socket = null;
 
-        this.emit("disconnected", undefined)
-        while (current_attempt < 5) {
-            try {
-                this.socket = await CryoClientWebsocketSession.ConstructSocket(this.host, this.timeout, this.bearer, this.sid);
-                this.AttachListenersToSocket(this.socket);
+            this.emit("disconnected", undefined)
+            while (current_attempt < 5) {
+                try {
+                    this.socket = await CryoClientWebsocketSession.ConstructSocket(this.host, this.timeout, this.bearer, this.sid);
+                    this.AttachListenersToSocket(this.socket);
 
-                this.emit("reconnected", undefined);
-                return;
-            } catch (ex) {
-                if (ex instanceof Error) {
-                    ///@ts-expect-error
-                    const errorCode = ex.cause?.error?.code as string;
-                    this.log(`Unable to reconnect to '${this.host}'. Error code: '${errorCode}'. Retry attempt in ${back_off_delay} ms. Attempt ${current_attempt++} / 5`);
-                    await new Promise((resolve) => setTimeout(resolve, back_off_delay));
-                    back_off_delay += current_attempt * 1000;
+                    this.emit("reconnected", undefined);
+                    return;
+                } catch (ex) {
+                    if (ex instanceof Error) {
+                        ///@ts-expect-error
+                        const errorCode = ex.cause?.error?.code as string;
+                        this.log(`Unable to reconnect to '${this.host}'. Error code: '${errorCode}'. Retry attempt in ${back_off_delay} ms. Attempt ${current_attempt++} / 5`);
+                        await new Promise((resolve) => setTimeout(resolve, back_off_delay));
+                        back_off_delay += current_attempt * 1000;
+                    }
                 }
             }
+            this.log(`Gave up on reconnecting to '${this.host}'`);
         }
-
-        this.log(`Gave up on reconnecting to '${this.host}'`);
 
         if (this.socket)
             this.socket.close();
