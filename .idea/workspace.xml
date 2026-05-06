@@ -5,8 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/Common/AckTracker/AckTracker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/Common/CryoBinaryMessage/CryoFrameFormatter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/Common/CryoBuffer/CryoBuffer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/Common/CryoEventEmitter/CryoEventEmitter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/Common/CryoFrameInspector/CryoFrameInspector.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/Common/CryptoHelper/CryptoHelper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/Common/Util/CreateDebugLogger.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/Common/Util/Guard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/CryoClientWebsocketSession/CryoClientWebsocketSession.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/CryoClientWebsocketSession/CryoCryptoBox.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/CryoClientWebsocketSession/CryoFrameRouter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/CryoClientWebsocketSession/CryoHandshakeEngine.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/typings/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dist/typings/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/CryoBinaryMessage/CryoFrameFormatter.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/CryoEventEmitter/CryoEventEmitter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoEventEmitter/CryoEventEmitter.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/CryptoHelper/CryptoHelper.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +47,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -45,8 +66,12 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/f.janetzki/FOSSProjects/CryoClientBrowser/git-recovery&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -78,7 +103,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-WS-251.26927.40" />
+        <option value="bundled-js-predefined-d6986cc7102b-3bd3a6803838-JavaScript-WS-261.22158.274" />
       </set>
     </attachedChunks>
   </component>
@@ -149,6 +174,18 @@
       <workItem from="1772785949625" duration="248000" />
       <workItem from="1773216793182" duration="19000" />
       <workItem from="1773847140678" duration="612000" />
+      <workItem from="1773908900582" duration="304000" />
+      <workItem from="1777901813138" duration="61000" />
+      <workItem from="1777901886381" duration="194000" />
+      <workItem from="1777902099069" duration="3000" />
+      <workItem from="1777902107615" duration="5000" />
+      <workItem from="1777902118240" duration="4000" />
+      <workItem from="1777902145189" duration="122000" />
+      <workItem from="1777902278441" duration="77000" />
+      <workItem from="1777902359734" duration="2225000" />
+      <workItem from="1777984848573" duration="12000" />
+      <workItem from="1777995512289" duration="1714000" />
+      <workItem from="1778055833130" duration="1650000" />
     </task>
     <servers />
   </component>

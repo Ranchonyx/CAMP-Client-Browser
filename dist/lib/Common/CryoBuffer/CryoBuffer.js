@@ -19,25 +19,25 @@ export class CryoBuffer {
     static concat(buffers) {
         if (buffers.length === 0)
             return CryoBuffer.alloc(0);
-        const length_total = buffers.reduce((acc, v) => acc + v.length, 0);
+        const length_total = buffers.reduce((acc, v) => acc + v.byteLength, 0);
         const result = new Uint8Array(length_total);
         let offset = 0;
         for (const buf of buffers) {
             result.set(buf.buffer, offset);
-            offset += buf.length;
+            offset += buf.byteLength;
         }
         return new CryoBuffer(result);
     }
-    writeUInt32BE(value, offset) {
+    writeUint32BE(value, offset) {
         this.view.setUint32(offset, value);
     }
-    writeUInt8(value, offset) {
+    writeUint8(value, offset) {
         this.view.setUint8(offset, value);
     }
-    readUInt32BE(offset) {
+    readUint32BE(offset) {
         return this.view.getUint32(offset);
     }
-    readUInt8(offset) {
+    readUint8(offset) {
         return this.view.getUint8(offset);
     }
     write(text, offset = 0) {
@@ -59,7 +59,7 @@ export class CryoBuffer {
     copy(target, target_start = 0) {
         target.buffer.set(this.buffer, target_start);
     }
-    get length() {
-        return this.buffer.byteLength;
+    get byteLength() {
+        return this.byteLength;
     }
 }

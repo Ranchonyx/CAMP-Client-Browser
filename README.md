@@ -46,8 +46,6 @@ The ``cryo``-function takes two arguments:
     - a required host string
 - bearer
     - a required authentication token string
-- use_cale
-    - If the client should use ``CALE``, see [CALE](#cale---cryo-application-level-encryption)
 - timeout
     - an optional timeout value, indicating how long the client should wait until a connection request to the server is
       aborted
@@ -56,18 +54,25 @@ The ``cryo``-function takes two arguments:
 
 ### Public methods
 
-| Name  | Parameter | Description                                | Returns |
-|-------|-----------|--------------------------------------------|---------|
-| Close |           | Closes the underlying Websocket connection |         |
+| Name          | Parameter                                   | Description                                | Returns                 |
+|---------------|---------------------------------------------|--------------------------------------------|-------------------------|
+| SendUTF8      | message: string                             | Sends an UTF8 string to the server         | Promise<void>           |
+| SendBinary    | message: CryoBuffer                         | Send arbitrary binary data to the server   | Promise<void>           |
+| Stream        | source: ReadableStream, streamName?: string | Stream a ReadableStream to the server      | Promise<void>           |
+| WaitForStream | streamName?: string, timeout?: number       | Wait for a named stream from the server    | Promise<ReadableStream> |
+| Close         |                                             | Closes the underlying Websocket connection | Promise<void>           |
 
 ### Data Events
 
 These events are emitted when the server-side session receives data from a client-side session
 
-| Name           | Parameter        | Description                                                    |
-|----------------|------------------|----------------------------------------------------------------|
-| message-utf8   | data: string     | Emitted, when the session receives a utf8 text message         |
-| message-binary | data: CryoBuffer | Emitted, when the session receives an arbitrary binary message |
+| Name           | Parameter                      | Description                                                    |
+|----------------|--------------------------------|----------------------------------------------------------------|
+| message-utf8   | string                         | Emitted, when the session receives a utf8 text message         |
+| message-binary | CryoBuffer                     | Emitted, when the session receives an arbitrary binary message |
+| tx-start       | [txId: number, txName: string] | Emitted, when the session receives a transaction start message |
+| tx-chunk       | [txId: number, data: Buffer]   | Emitted, when the session receives a transaction chunk message |
+| tx-finish      | number                         | Emitted, when the session receives a transaction end message   |
 
 ### Meta events
 
@@ -86,73 +91,10 @@ This category of events is emitted when the session state changes
 import {cryo} from "cryo-client-browser";
 
 const HOST = "localhost:8080";
-const TOKEN = process.env.CRYO_AUTH_TOKEN;
+const TOKEN = "SOME_AUTH_TOKEN";
 
-const client = await cryo(HOST, TOKEN, false, 10000);
+const client = await cryo(HOST, TOKEN, 10000);
 client.on("connected", () => {
     console.info(`Successfully connected to ${HOST}`);
 });
 ```
-
-## CALE - Cryo application level encryption
-
-Warning - This feature is unavailable in the C# client
-
-**CALE** is an optional, end-to-end encryption layer for Cryo.
-
-It adds a layer of cryptographic protection on top of WebSockets/TCP, mainly for environments without TLS or custom
-setups
-
-**How:**
-
-- It uses **ECDH / P-256** for an ephemeral key exchange
-- Derives symmetric session keys using **SHA-256**
-- Encrypts frames using **AES-128-GCM**
-- Performs a 3-step handshake ``server_hello -> client_hello -> handshake_done``
-- Once completed, all frames are encrypted
-
-```` 
-+-------------+                                      +-------------+
-|   Client    |                                      |   Server    |
-+------+------+                                      +------+------+
-       |                                                    |
-       | 1) server_hello(pub_key_s, sid, ack)               |
-       | <------------------------------------------------- |
-       |                                                    |
-       | 2) client_hello(pub_key_c, sid, ack)               |
-       | -------------------------------------------------> |
-       |                                                    |
-       | 3) handshake_done                                  |
-       | <------------------------------------------------- |
-       |                                                    |
-       | 4) handshake_done (ack)                            |
-       | -------------------------------------------------> |
-       |                                                    |
-+------+------ +                                      +------+------+
-| Secure Chan. | <---------- AES-128-GCM ------------>| Secure Chan.|
-|  (tx/rx)     |                                      |  (tx/rx)    |
-+--------------+                                      +-------------+
-
-````
-
-Session keys are derived as such
-
-```
-secret  = ECDH(pub_key_server, priv_key_client)
-hash    = SHA256(secret)
-rx_key  = hash[0..15]
-tx_key  = hash[16..31]
-```
-
-After the ``handshake_done``-step, both peers switch into secure mode, meaning that all data frames (`utf8data`,
-`binarydata`) will be encrypted using AES-GCM
-
-**Why:**
-
-CALE is not meant to replace TLS, I wouldn't dare.
-
-It is a protocol-level experiment for extra application-layer encryption, primarily for private deployments or custom
-setups.
-
-If you are communicating via TLS, you do **not** need **CALE** at all and it is recommended to disable it for
-performance reasons.
