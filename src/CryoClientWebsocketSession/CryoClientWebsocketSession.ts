@@ -1,7 +1,7 @@
-import {ICryoClientWebsocketSessionEvents, PendingBinaryMessage} from "./types/CryoClientWebsocketSession.js";
-import {AckTracker} from "../Common/AckTracker/AckTracker.js";
 import {CryoFrameInspector} from "../Common/CryoFrameInspector/CryoFrameInspector.js";
 import {CreateDebugLogger, DebugLoggerFunction} from "../Common/Util/CreateDebugLogger.js";
+import {ICryoClientWebsocketSessionEvents, PendingBinaryMessage} from "./types/CryoClientWebsocketSession.js";
+import {AckTracker} from "../Common/AckTracker/AckTracker.js";
 import {CryoBuffer} from "../Common/CryoBuffer/CryoBuffer.js";
 import {CryoEventEmitter} from "../Common/CryoEventEmitter/CryoEventEmitter.js";
 import {BufferUtil} from "../Common/Protocol/BufferUtil.js";
@@ -26,7 +26,11 @@ enum CloseCode {
 }
 
 type Buffer = CryoBuffer;
-type Stream = { readable: ReadableStream<Uint8Array>, controller: ReadableStreamDefaultController<Uint8Array> };
+type Stream = {
+    readable: ReadableStream<Uint8Array>,
+    controller: ReadableStreamDefaultController<Uint8Array>,
+    name: string
+};
 
 /*
 * Cryo Websocket session layer. Handles Binary formatting and ACKs and whatnot
@@ -170,12 +174,18 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.socket.close(code, message);
     }
 
-    /*
-    * Route a frame of any kind to its corresponding handler
-    * */
+    /**
+     * Route a frame of any kind to its corresponding handler
+     * */
     private async routeFrame(frame: Buffer): Promise<void> {
         const type = BufferUtil.GetType(frame);
         this.bytes_rx += frame.byteLength;
+
+        try {
+            this.log(`IN ${CryoFrameInspector.Inspect(frame)}`);
+        } catch {
+            this.log(`IN <INVALID MESSAGE>`);
+        }
 
         switch (type) {
             case BinaryMessageType.PING_PONG:
@@ -207,9 +217,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         }
     }
 
-    /*
-    * Send a message to the server
-    * */
+    /**
+     * Send a message to the server
+     * */
     private async Send(outgoing_message: CryoBuffer): Promise<void> {
         if (!this.socket)
             return;
@@ -238,12 +248,12 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
             this.bytes_tx += outgoing_message.byteLength;
         }
 
-        this.log(`Sent ${CryoFrameInspector.Inspect(outgoing_message)} to server.`);
+        this.log(`OUT ${CryoFrameInspector.Inspect(outgoing_message)}`);
     }
 
-    /*
-    * Respond to PONG frames with PING and vice versa
-    * */
+    /**
+     * Respond to PONG frames with PING and vice versa
+     * */
     private async HandlePingPongMessage(message: CryoBuffer): Promise<void> {
         const decodedPingPongMessage = PingPongFrame
             .Deserialize(message);
@@ -254,9 +264,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         await this.Send(ping_pongMessage);
     }
 
-    /*
-    * Handling of error messages from the server, currently just log it
-    * */
+    /**
+     * Handling of error messages from the server, currently just log it
+     * */
     private async HandleErrorMessage(message: CryoBuffer): Promise<void> {
         const decodedErrorMessage = ErrorFrame
             .Deserialize(message);
@@ -264,9 +274,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.log(decodedErrorMessage.payload);
     }
 
-    /*
-    * ACK the pending message if it matches the server's ACK
-    * */
+    /**
+     * ACK the pending message if it matches the server's ACK
+     * */
     private async HandleAckMessage(message: Buffer): Promise<void> {
         const decodedAckMessage = ACKFrame
             .Deserialize(message);
@@ -283,9 +293,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.log(`Got ACK ${ack_id} from server.`);
     }
 
-    /*
-    * Extract payload from the binary message and emit the message event with the utf8 payload
-    * */
+    /**
+     * Extract payload from the binary message and emit the message event with the utf8 payload
+     * */
     private async HandleUTF8DataMessage(message: Buffer): Promise<void> {
         const decodedDataMessage = Utf8DataFrame
             .Deserialize(message);
@@ -299,9 +309,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.emit("message-utf8", payload);
     }
 
-    /*
-    * Extract payload from the binary message and emit the message event with the binary payload
-    * */
+    /**
+     * Extract payload from the binary message and emit the message event with the binary payload
+     * */
     private async HandleBinaryDataMessage(message: Buffer): Promise<void> {
         const decodedDataMessage = BinaryDataFrame
             .Deserialize(message);
@@ -315,9 +325,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.emit("message-binary", payload);
     }
 
-    /*
-    * Handle the start of a transaction
-    * */
+    /**
+     * Handle the start of a transaction
+     * */
     private async HandleTxStartMessage(message: Buffer): Promise<void> {
         const decodedStartFrame = TXStartFrame
             .Deserialize(message);
@@ -338,14 +348,14 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
             }
         });
 
-        this.streams.set(decodedStartFrame.txId, {controller, readable});
+        this.streams.set(decodedStartFrame.txId, {controller, readable, name: decodedStartFrame.txName});
 
         this.emit("tx-start", [decodedStartFrame.txId, decodedStartFrame.txName]);
     }
 
-    /*
-    * Handle the end of a transaction
-    * */
+    /**
+     * Handle the end of a transaction
+     * */
     private async HandleTxFinishMessage(message: Buffer): Promise<void> {
         const decodedFinishFrame = TXFinishFrame
             .Deserialize(message);
@@ -365,9 +375,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.emit("tx-finish", decodedFinishFrame.txId);
     }
 
-    /*
-    * Handle a transaction chunk
-    * */
+    /**
+     * Handle a transaction chunk
+     * */
     private async HandleTxChunkMessage(message: Buffer): Promise<void> {
         const decodedChunkFrame = TXChunkFrame
             .Deserialize(message);
@@ -380,9 +390,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.emit("tx-chunk", [decodedChunkFrame.txId, decodedChunkFrame.payload]);
     }
 
-    /*
-    * Send an utf8 message to the server
-    * */
+    /**
+     * Send an utf8 message to the server
+     * */
     public async SendUTF8(message: string): Promise<void> {
         const new_ack_id = this.inc_get_ack();
 
@@ -392,9 +402,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         await this.Send(formatted_message);
     }
 
-    /*
-    * Send a binary message to the server
-    * */
+    /**
+     * Send a binary message to the server
+     * */
     public async SendBinary(message: CryoBuffer): Promise<void> {
         const new_ack_id = this.inc_get_ack();
 
@@ -411,10 +421,14 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
      * @returns {Promise<void>} A Promise which will be resolved once the stream finishes
      * */
     public async Stream(source: ReadableStream<Uint8Array>, streamName: string = "anonymous"): Promise<void> {
-        const new_ack_id = this.inc_get_ack();
+        const start_ack_id = this.inc_get_ack();
         const new_txid = this.inc_get_txid();
 
-        const start_frame = TXStartFrame.Serialize(this.sid, new_ack_id, new_txid, streamName);
+        const start_frame = TXStartFrame.Serialize(this.sid, start_ack_id, new_txid, streamName);
+        this.server_ack_tracker.Track(start_ack_id, {
+            message: start_frame,
+            timestamp: Date.now()
+        });
         await this.Send(start_frame);
 
         const reader = source.getReader();
@@ -432,7 +446,12 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
             reader.releaseLock();
         }
 
-        const finish_frame = TXFinishFrame.Serialize(this.sid, this.inc_get_ack(), new_txid);
+        const finish_ack_id = this.inc_get_ack();
+        const finish_frame = TXFinishFrame.Serialize(this.sid, finish_ack_id, new_txid);
+        this.server_ack_tracker.Track(finish_ack_id, {
+            message: finish_frame,
+            timestamp: Date.now()
+        });
         await this.Send(finish_frame);
     }
 
@@ -446,26 +465,42 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         const timeoutSig = AbortSignal.timeout(timeout);
 
         return new Promise<ReadableStream<Uint8Array>>((resolve, reject) => {
-            const onTxStartListener = async (data: [txId: number, txName: string]) => {
-                const [txId, txName] = data;
-                if (txName === streamName) {
-                    if (!this.streams.has(txId)) {
-                        this.off("tx-start", onTxStartListener);
-                        timeoutSig.removeEventListener("abort", onAbort);
-
-                        reject(new Error(`No stream id ${txId} present!`));
-                    }
-
-                    const stream = this.streams.get(txId)!;
-
-                    resolve(stream.readable);
-                }
-            };
-
             const onAbort = () => {
                 this.off("tx-start", onTxStartListener);
                 timeoutSig.removeEventListener("abort", onAbort);
                 reject(new Error(`Timeout elapsed!`));
+            }
+
+            const cleanup = () => {
+                this.off("tx-start", onTxStartListener);
+                timeoutSig.removeEventListener("abort", onAbort);
+            };
+
+            const tryResolveStream = (txId: number, txName: string): boolean => {
+                if (txName !== streamName)
+                    return false;
+
+                if (!this.streams.has(txId)) {
+                    cleanup();
+                    reject(new Error(`No stream id ${txId} present!`));
+                    return true;
+                }
+
+                const stream = this.streams.get(txId)!;
+
+                cleanup();
+                resolve(stream.readable);
+                return true;
+            };
+
+            const onTxStartListener = async (data: [txId: number, txName: string]) => {
+                const [txId, txName] = data;
+                tryResolveStream(txId, txName);
+            };
+
+            for (const [txId, stream] of this.streams.entries()) {
+                if (tryResolveStream(txId, stream.name))
+                    return;
             }
 
             this.on("tx-start", onTxStartListener);

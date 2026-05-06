@@ -26,12 +26,17 @@ export class CryoFrameInspector {
                 case BinaryMessageType.TX_FINISH:
                     return `[${sid},${ack},${BufferUtil.Transaction.GetTxId(message)},${type_str}]`;
                 case BinaryMessageType.TX_CHUNK:
-                    return `[${sid},${BufferUtil.Transaction.GetChunkTxId(message)},${type_str},[${BufferUtil.Transaction.GetChunkPayload(message)}]]`;
+                    return `[${sid},${BufferUtil.Transaction.GetChunkTxId(message)},${type_str},[chunk_payload,len=${BufferUtil.Transaction.GetChunkPayload(message).length}]]`;
             }
             throw new Error("Unknown type " + type);
         } else {
-            const payload = BufferUtil.GetPayload(message);
-            return `[${sid},${ack},${type_str},[${payload}]]`;
+            if (type === BinaryMessageType.BINARYDATA) {
+                const payload = BufferUtil.GetPayload(message);
+                return `[${sid},${ack},${type_str},[binary_payload,len=${payload.length}]]`;
+            } else {
+                const payload = BufferUtil.GetPayload(message);
+                return `[${sid},${ack},${type_str},[utf8_payload,len=${payload.length}]]`;
+            }
         }
     }
 }
