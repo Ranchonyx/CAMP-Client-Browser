@@ -371,7 +371,6 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         if (!this.streams.has(decodedFinishFrame.txId))
             return;
         this.streams.get(decodedFinishFrame.txId)!.controller.close();
-        this.streams.delete(decodedFinishFrame.txId);
 
         this.emit("tx-finish", decodedFinishFrame.txId);
     }
@@ -487,9 +486,11 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
                     return true;
                 }
 
-                const stream = this.streams.get(txId)!;
-
                 cleanup();
+                
+                const stream = this.streams.get(txId)!;
+                this.streams.delete(txId);
+
                 resolve(stream.readable);
                 return true;
             };

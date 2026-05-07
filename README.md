@@ -70,9 +70,6 @@ These events are emitted when the server-side session receives data from a clien
 |----------------|--------------------------------|----------------------------------------------------------------|
 | message-utf8   | string                         | Emitted, when the session receives a utf8 text message         |
 | message-binary | CryoBuffer                     | Emitted, when the session receives an arbitrary binary message |
-| tx-start       | [txId: number, txName: string] | Emitted, when the session receives a transaction start message |
-| tx-chunk       | [txId: number, data: Buffer]   | Emitted, when the session receives a transaction chunk message |
-| tx-finish      | number                         | Emitted, when the session receives a transaction end message   |
 
 ### Meta events
 
