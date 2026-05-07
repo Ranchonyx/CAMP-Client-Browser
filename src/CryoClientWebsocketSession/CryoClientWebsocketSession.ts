@@ -37,11 +37,13 @@ type Stream = {
 * */
 export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebsocketSessionEvents> {
     private messages_pending_server_ack = new Map<number, PendingBinaryMessage>();
-    private server_ack_tracker: AckTracker = new AckTracker();
-    private streams: Map<number, Stream> = new Map();
+    private server_ack_tracker = new AckTracker();
+    private streams = new Map<number, Stream>();
 
-    private bytes_tx: number = 0;
-    private bytes_rx: number = 0;
+    private STREAM_KEEP_TIMEOUT = 30_000;
+
+    private bytes_tx = 0;
+    private bytes_rx = 0;
 
     private current_ack = 0;
     private current_txid = 0;
@@ -371,6 +373,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         if (!this.streams.has(decodedFinishFrame.txId))
             return;
         this.streams.get(decodedFinishFrame.txId)!.controller.close();
+        setTimeout(() => {
+            this.streams.delete(decodedFinishFrame.txId);
+        }, this.STREAM_KEEP_TIMEOUT)
 
         this.emit("tx-finish", decodedFinishFrame.txId);
     }
@@ -487,9 +492,8 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
                 }
 
                 cleanup();
-                
+
                 const stream = this.streams.get(txId)!;
-                this.streams.delete(txId);
 
                 resolve(stream.readable);
                 return true;
