@@ -30,6 +30,7 @@ type Stream = {
     readable: ReadableStream<Uint8Array>,
     controller: ReadableStreamDefaultController<Uint8Array>,
     name: string
+    claimed: boolean;
 };
 
 /*
@@ -351,7 +352,12 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
             }
         });
 
-        this.streams.set(decodedStartFrame.txId, {controller, readable, name: decodedStartFrame.txName});
+        this.streams.set(decodedStartFrame.txId, {
+            controller,
+            readable,
+            name: decodedStartFrame.txName,
+            claimed: false
+        });
 
         this.emit("tx-start", [decodedStartFrame.txId, decodedStartFrame.txName]);
     }
@@ -369,13 +375,19 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
 
         await this.Send(encodedACKMessage);
 
-        //Handle stream
-        if (!this.streams.has(decodedFinishFrame.txId))
+        const stream = this.streams.get(decodedFinishFrame.txId);
+        if (!stream)
             return;
-        this.streams.get(decodedFinishFrame.txId)!.controller.close();
-        setTimeout(() => {
+
+        stream.controller.close();
+        if (stream.claimed) {
             this.streams.delete(decodedFinishFrame.txId);
-        }, this.STREAM_KEEP_TIMEOUT)
+
+        } else {
+            setTimeout(() => {
+                this.streams.delete(decodedFinishFrame.txId);
+            }, this.STREAM_KEEP_TIMEOUT);
+        }
 
         this.emit("tx-finish", decodedFinishFrame.txId);
     }
@@ -491,9 +503,14 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
                     return true;
                 }
 
-                cleanup();
 
                 const stream = this.streams.get(txId)!;
+                if (stream.claimed)
+                    return false;
+
+                stream.claimed = true;
+
+                cleanup();
 
                 resolve(stream.readable);
                 return true;
@@ -505,6 +522,9 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
             };
 
             for (const [txId, stream] of this.streams.entries()) {
+                if (stream.claimed)
+                    continue;
+
                 if (tryResolveStream(txId, stream.name))
                     return;
             }
