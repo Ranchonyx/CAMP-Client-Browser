@@ -1,6 +1,6 @@
 import {BinaryMessageType, PingMessage, UUID} from "../defs.js";
 import {BufferUtil} from "../BufferUtil.js";
-import {CryoBuffer} from "../../CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../../Wrappers/CryoBuffer.js";
 
 export class PingPongFrame {
     public static Deserialize(value: CryoBuffer): PingMessage {

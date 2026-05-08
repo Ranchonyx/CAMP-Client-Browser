@@ -2,7 +2,7 @@ import {CryoFrameInspector} from "../Common/CryoFrameInspector/CryoFrameInspecto
 import {CreateDebugLogger, DebugLoggerFunction} from "../Common/Util/CreateDebugLogger.js";
 import {ICryoClientWebsocketSessionEvents, PendingBinaryMessage} from "./types/CryoClientWebsocketSession.js";
 import {AckTracker} from "../Common/AckTracker/AckTracker.js";
-import {CryoBuffer} from "../Common/CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../Common/Wrappers/CryoBuffer.js";
 import {CryoEventEmitter} from "../Common/CryoEventEmitter/CryoEventEmitter.js";
 import {BufferUtil} from "../Common/Protocol/BufferUtil.js";
 import {PingPongFrame} from "../Common/Protocol/Basic/PingPongFrame.js";
@@ -14,6 +14,7 @@ import {BinaryMessageType} from "../Common/Protocol/defs.js";
 import {TXChunkFrame} from "../Common/Protocol/Transaction/TXChunkFrame.js";
 import {TXFinishFrame} from "../Common/Protocol/Transaction/TXFinishFrame.js";
 import {TXStartFrame} from "../Common/Protocol/Transaction/TXStartFrame.js";
+import {CryoStream} from "../Common/Wrappers/CryoStream.js";
 
 type UUID = `${string}-${string}-${string}-${string}-${string}`;
 
@@ -27,9 +28,9 @@ enum CloseCode {
 
 type Buffer = CryoBuffer;
 type Stream = {
-    readable: ReadableStream<Uint8Array>,
-    controller: ReadableStreamDefaultController<Uint8Array>,
-    name: string
+    readable: ReadableStream<Uint8Array>;
+    controller: ReadableStreamDefaultController<Uint8Array>;
+    name: string;
     claimed: boolean;
 };
 
@@ -380,15 +381,13 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
             return;
 
         stream.controller.close();
-        if (stream.claimed) {
-            this.streams.delete(decodedFinishFrame.txId);
-
-        } else {
+        if (!stream.claimed)
             setTimeout(() => {
-                this.streams.delete(decodedFinishFrame.txId);
-            }, this.STREAM_KEEP_TIMEOUT);
-        }
+                const currentStream = this.streams.get(decodedFinishFrame.txId);
+                if (currentStream && !currentStream.claimed)
+                    this.streams.delete(decodedFinishFrame.txId);
 
+            }, this.STREAM_KEEP_TIMEOUT);
         this.emit("tx-finish", decodedFinishFrame.txId);
     }
 
@@ -402,6 +401,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         //Handle stream
         if (!this.streams.has(decodedChunkFrame.txId))
             return;
+
         this.streams.get(decodedChunkFrame.txId)!.controller.enqueue(decodedChunkFrame.payload.buffer);
 
         this.emit("tx-chunk", [decodedChunkFrame.txId, decodedChunkFrame.payload]);
@@ -478,10 +478,10 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
      * @param timeout Optionally, how long to wait for the server to start the transaction
      * @returns {Promise<ReadableStream<Uint8Array>>} A Promise which will be resolved with a {@link{ReadableStream}}
      * */
-    public async WaitForStream(streamName: string = "anonymous", timeout: number = 1000): Promise<ReadableStream<Uint8Array>> {
+    public async WaitForStream(streamName: string = "anonymous", timeout: number = 1000): Promise<CryoStream<Uint8Array>> {
         const timeoutSig = AbortSignal.timeout(timeout);
 
-        return new Promise<ReadableStream<Uint8Array>>((resolve, reject) => {
+        return new Promise<CryoStream<Uint8Array>>((resolve, reject) => {
             const onAbort = () => {
                 this.off("tx-start", onTxStartListener);
                 timeoutSig.removeEventListener("abort", onAbort);
@@ -509,14 +509,13 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
                     return false;
 
                 stream.claimed = true;
-
                 cleanup();
 
-                resolve(stream.readable);
+                resolve(new CryoStream(stream.readable, txId, (txIdToDelete) => this.streams.delete(txIdToDelete)));
                 return true;
             };
 
-            const onTxStartListener = async (data: [txId: number, txName: string]) => {
+            const onTxStartListener = (data: [txId: number, txName: string]) => {
                 const [txId, txName] = data;
                 tryResolveStream(txId, txName);
             };

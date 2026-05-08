@@ -1,6 +1,6 @@
 import {BufferUtil} from "../BufferUtil.js";
 import {BinaryMessageType, ErrorMessage, UUID} from "../defs.js";
-import {CryoBuffer} from "../../CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../../Wrappers/CryoBuffer.js";
 
 export class ErrorFrame {
     public static Deserialize(value: CryoBuffer): ErrorMessage {

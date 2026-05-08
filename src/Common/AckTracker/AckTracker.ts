@@ -1,4 +1,4 @@
-import {CryoBuffer} from "../CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../Wrappers/CryoBuffer.js";
 
 type PendingBinaryMessage = {
     timestamp: number;

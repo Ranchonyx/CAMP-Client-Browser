@@ -1,6 +1,6 @@
 import {BinaryMessageType} from "../Protocol/defs.js";
 import {BufferUtil} from "../Protocol/BufferUtil.js";
-import {CryoBuffer} from "../CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../Wrappers/CryoBuffer.js";
 
 const typeToStringMap: Record<BinaryMessageType, string> = {
     0: "ack",

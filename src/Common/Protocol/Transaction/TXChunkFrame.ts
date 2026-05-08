@@ -1,6 +1,6 @@
 import {BinaryMessageType, TXChunkMessage, UUID} from "../defs.js";
 import {BufferUtil} from "../BufferUtil.js";
-import {CryoBuffer} from "../../CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../../Wrappers/CryoBuffer.js";
 
 export class TXChunkFrame {
     public static Deserialize(value: CryoBuffer): TXChunkMessage {

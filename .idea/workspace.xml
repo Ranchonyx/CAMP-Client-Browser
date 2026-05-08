@@ -5,9 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/CryoBuffer/CryoBuffer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Wrappers/CryoBuffer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/ACKFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/ACKFrame.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/BinaryDataFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/BinaryDataFrame.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/ErrorFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/ErrorFrame.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/PingPongFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/PingPongFrame.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/Utf8DataFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/Utf8DataFrame.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/BufferUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/BufferUtil.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXChunkFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXChunkFrame.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXFinishFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXFinishFrame.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXStartFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXStartFrame.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/defs.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/defs.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,6 +227,9 @@
       <workItem from="1778156226479" duration="101000" />
       <workItem from="1778156628808" duration="4000" />
       <workItem from="1778229852580" duration="77000" />
+      <workItem from="1778230144511" duration="299000" />
+      <workItem from="1778232975771" duration="2266000" />
+      <workItem from="1778245322608" duration="1765000" />
     </task>
     <servers />
   </component>

@@ -1,6 +1,6 @@
 import {AckMessage, BinaryMessageType, UUID} from "../defs.js";
 import {BufferUtil} from "../BufferUtil.js";
-import {CryoBuffer} from "../../CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../../Wrappers/CryoBuffer.js";
 
 export class ACKFrame {
     public static Deserialize(value: CryoBuffer): AckMessage {

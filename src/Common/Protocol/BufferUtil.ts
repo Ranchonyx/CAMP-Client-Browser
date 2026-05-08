@@ -1,5 +1,5 @@
 import {BinaryMessageType, UUID} from "./defs.js";
-import {CryoBuffer} from "../CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../Wrappers/CryoBuffer.js";
 
 export class BufferUtil {
     public static sidFromBuffer(buffer: CryoBuffer): UUID {

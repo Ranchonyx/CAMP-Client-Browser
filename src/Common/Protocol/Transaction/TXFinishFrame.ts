@@ -1,6 +1,6 @@
 import {BinaryMessageType, TXFinishMessage, UUID} from "../defs.js";
 import {BufferUtil} from "../BufferUtil.js";
-import {CryoBuffer} from "../../CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../../Wrappers/CryoBuffer.js";
 
 export class TXFinishFrame {
     public static Deserialize(value: CryoBuffer): TXFinishMessage {

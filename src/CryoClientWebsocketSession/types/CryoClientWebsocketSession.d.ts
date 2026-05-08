@@ -1,4 +1,4 @@
-import {CryoBuffer} from "../../Common/CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../../Common/Wrappers/CryoBuffer.js";
 
 export interface ICryoClientWebsocketSessionEvents {
     "message-utf8": string;

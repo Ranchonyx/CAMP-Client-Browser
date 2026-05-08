@@ -1,6 +1,6 @@
 import {BinaryMessageType, UTF8DataMessage, UUID} from "../defs.js";
 import {BufferUtil} from "../BufferUtil.js";
-import {CryoBuffer} from "../../CryoBuffer/CryoBuffer.js";
+import {CryoBuffer} from "../../Wrappers/CryoBuffer.js";
 
 export class Utf8DataFrame {
     public static Deserialize(value: CryoBuffer): UTF8DataMessage {
