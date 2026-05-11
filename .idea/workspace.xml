@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/ACKFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/ACKFrame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/BinaryDataFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/BinaryDataFrame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/ErrorFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/ErrorFrame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/PingPongFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/PingPongFrame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/Utf8DataFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/Utf8DataFrame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/BufferUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Util/BufferUtil.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXChunkFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXChunkFrame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXFinishFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXFinishFrame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXStartFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXStartFrame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/defs.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/protocol.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
-    </list>
+    <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +23,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -247,6 +231,7 @@
       <workItem from="1778510148142" duration="5000" />
       <workItem from="1778510195853" duration="11000" />
       <workItem from="1778512894165" duration="5000" />
+      <workItem from="1778514729453" duration="129000" />
     </task>
     <servers />
   </component>

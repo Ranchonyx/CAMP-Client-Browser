@@ -19,7 +19,7 @@
     }
   },
   "dependencies": {
-    "cryo-protocol": "^1.0.4"
+    "cryo-protocol": "^1.0.5"
   },
   "devDependencies": {
     "esbuild": "^0.25.8"
