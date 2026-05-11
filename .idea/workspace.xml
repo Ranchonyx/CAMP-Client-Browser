@@ -5,24 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/CryoBuffer/CryoBuffer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Wrappers/CryoBuffer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/ACKFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/ACKFrame.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/BinaryDataFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/BinaryDataFrame.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/ErrorFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/ErrorFrame.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/PingPongFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/PingPongFrame.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Basic/Utf8DataFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Basic/Utf8DataFrame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/BufferUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/BufferUtil.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/BufferUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Util/BufferUtil.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXChunkFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXChunkFrame.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXFinishFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXFinishFrame.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXStartFrame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/Transaction/TXStartFrame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/defs.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/defs.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Protocol/defs.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Protocol/protocol.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,10 +85,10 @@
       <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common\Util" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common\Util" />
       <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Util" />
       <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common\AckTracker" />
       <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common" />
-      <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common\Util" />
       <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common\CryoFrameInspector" />
     </key>
   </component>
@@ -229,7 +226,27 @@
       <workItem from="1778229852580" duration="77000" />
       <workItem from="1778230144511" duration="299000" />
       <workItem from="1778232975771" duration="2266000" />
-      <workItem from="1778245322608" duration="1765000" />
+      <workItem from="1778245322608" duration="1856000" />
+      <workItem from="1778486267877" duration="6000" />
+      <workItem from="1778486329934" duration="4000" />
+      <workItem from="1778486890215" duration="23000" />
+      <workItem from="1778488482049" duration="12000" />
+      <workItem from="1778488600935" duration="6000" />
+      <workItem from="1778488616375" duration="3000" />
+      <workItem from="1778489539502" duration="6000" />
+      <workItem from="1778489574679" duration="43000" />
+      <workItem from="1778490020139" duration="13000" />
+      <workItem from="1778490831689" duration="40000" />
+      <workItem from="1778490924563" duration="47000" />
+      <workItem from="1778490978547" duration="25000" />
+      <workItem from="1778491026264" duration="140000" />
+      <workItem from="1778491174493" duration="941000" />
+      <workItem from="1778493848224" duration="8000" />
+      <workItem from="1778493887430" duration="2000" />
+      <workItem from="1778509653612" duration="404000" />
+      <workItem from="1778510148142" duration="5000" />
+      <workItem from="1778510195853" duration="11000" />
+      <workItem from="1778512894165" duration="5000" />
     </task>
     <servers />
   </component>

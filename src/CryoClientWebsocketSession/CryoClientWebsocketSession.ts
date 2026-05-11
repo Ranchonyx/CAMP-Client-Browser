@@ -4,16 +4,15 @@ import {ICryoClientWebsocketSessionEvents, PendingBinaryMessage} from "./types/C
 import {AckTracker} from "../Common/AckTracker/AckTracker.js";
 import {CryoBuffer} from "../Common/Wrappers/CryoBuffer.js";
 import {CryoEventEmitter} from "../Common/CryoEventEmitter/CryoEventEmitter.js";
-import {BufferUtil} from "../Common/Protocol/BufferUtil.js";
-import {PingPongFrame} from "../Common/Protocol/Basic/PingPongFrame.js";
-import {ErrorFrame} from "../Common/Protocol/Basic/ErrorFrame.js";
-import {ACKFrame} from "../Common/Protocol/Basic/ACKFrame.js";
-import {Utf8DataFrame} from "../Common/Protocol/Basic/Utf8DataFrame.js";
-import {BinaryDataFrame} from "../Common/Protocol/Basic/BinaryDataFrame.js";
-import {BinaryMessageType} from "../Common/Protocol/defs.js";
-import {TXChunkFrame} from "../Common/Protocol/Transaction/TXChunkFrame.js";
-import {TXFinishFrame} from "../Common/Protocol/Transaction/TXFinishFrame.js";
-import {TXStartFrame} from "../Common/Protocol/Transaction/TXStartFrame.js";
+import {
+    ACKFrame,
+    BinaryDataFrame,
+    BinaryMessageType,
+    BufferUtil,
+    ErrorFrame,
+    PingPongFrame, TXChunkFrame, TXFinishFrame, TXStartFrame,
+    Utf8DataFrame
+} from "cryo-protocol";
 import {CryoStream} from "../Common/Wrappers/CryoStream.js";
 
 type UUID = `${string}-${string}-${string}-${string}-${string}`;

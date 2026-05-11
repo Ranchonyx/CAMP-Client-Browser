@@ -18,6 +18,9 @@
       "types": "./dist/typings/index.d.ts"
     }
   },
+  "dependencies": {
+    "cryo-protocol": "^1.0.4"
+  },
   "devDependencies": {
     "esbuild": "^0.25.8"
   },
