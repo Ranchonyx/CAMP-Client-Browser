@@ -8,7 +8,7 @@ import {
     ACKFrame,
     BinaryDataFrame,
     BinaryMessageType,
-    BufferUtil,
+    BufferUtil, ByeFrame, CRYO_PROTOCOL_VERSION, cryoNewId, EndpointInfoFrame,
     ErrorFrame,
     PingPongFrame, TXChunkFrame, TXFinishFrame, TXStartFrame,
     Utf8DataFrame
@@ -46,13 +46,16 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     private bytes_tx = 0;
     private bytes_rx = 0;
 
+
     private current_ack = 0;
     private current_txid = 0;
 
-    private static async ConstructSocket(host: string, timeout: number, bearer: string, sid: string): Promise<WebSocket> {
+    private receivedProtocolFeatures: bigint = 0n;
+
+    private static async ConstructSocket(host: string, timeout: number, bearer: string, sid: bigint): Promise<WebSocket> {
         const full_host_url = new URL(host);
         full_host_url.searchParams.set("authorization", `Bearer ${bearer}`);
-        full_host_url.searchParams.set("x-cryo-sid", sid);
+        full_host_url.searchParams.set("x-cryo-sid", String(sid));
         const sck = new WebSocket(full_host_url);
         sck.binaryType = "arraybuffer";
 
@@ -71,7 +74,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     }
 
     public static async Connect(host: string, bearer: string, timeout: number = 5000): Promise<CryoClientWebsocketSession> {
-        const sid: UUID = crypto.randomUUID();
+        const sid = cryoNewId();
 
         const socket = await CryoClientWebsocketSession.ConstructSocket(host, timeout, bearer, sid);
         return new CryoClientWebsocketSession(host, sid, socket, timeout, bearer);
@@ -152,9 +155,17 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.emit("closed", [code, reason.toString("utf8")]);
     }
 
-    private constructor(private host: string, private sid: UUID, private socket: WebSocket, private timeout: number, private bearer: string, private log: DebugLoggerFunction = CreateDebugLogger("CRYO_CLIENT_SESSION")) {
+    private constructor(private host: string, private sid: bigint, private socket: WebSocket, private timeout: number, private bearer: string, private log: DebugLoggerFunction = CreateDebugLogger("CRYO_CLIENT_SESSION")) {
         super();
         this.AttachListenersToSocket(socket);
+
+        //Send the first endpointInfo message
+        const ack = this.inc_get_ack();
+        const msg = EndpointInfoFrame.Serialize(this.sid, ack);
+        this.server_ack_tracker.Track(ack, {timestamp: Date.now(), message: msg});
+
+        this.Send(msg);
+
         setTimeout(() => this.emit("connected", undefined));
     }
 
@@ -215,6 +226,14 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
                 return;
             case BinaryMessageType.TX_FINISH:
                 await this.HandleTxFinishMessage(frame);
+                return;
+            case BinaryMessageType.ENDPOINT_INFO:
+                await this.HandleEndpointInfoMessage(frame);
+                return;
+            case BinaryMessageType.BYE:
+                await this.HandleByeMessage(frame);
+                return;
+            case BinaryMessageType.TX_FLOW:
                 return;
             default:
                 this.log(`Unsupported binary message type ${type}!`);
@@ -406,6 +425,40 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.emit("tx-chunk", [decodedChunkFrame.txId, decodedChunkFrame.payload]);
     }
 
+    private async HandleByeMessage(message: Buffer): Promise<void> {
+        const decodedByeMessage = ByeFrame
+            .Deserialize(message);
+
+        const ack_id = decodedByeMessage.ack;
+        const encodedACKMessage = ACKFrame
+            .Serialize(this.sid, ack_id);
+
+        await this.Send(encodedACKMessage);
+
+        this.Destroy(4000, decodedByeMessage.reason);
+    }
+
+    private async HandleEndpointInfoMessage(message: Buffer): Promise<void> {
+        const decodedInfoMessage = EndpointInfoFrame
+            .Deserialize(message);
+
+        const ack_id = decodedInfoMessage.ack;
+        const encodedACKMessage = ACKFrame
+            .Serialize(this.sid, ack_id);
+
+        await this.Send(encodedACKMessage);
+
+        //Check protocol version equality and fail otherwise
+        if (CRYO_PROTOCOL_VERSION !== decodedInfoMessage.version) {
+            this.Destroy(4001, `Protocol mismatch. Client offered ${decodedInfoMessage.version}, we support ${CRYO_PROTOCOL_VERSION} !`);
+            return;
+        }
+
+        this.log("Got protocol features: ", this.receivedProtocolFeatures.toString(2).padStart(64));
+
+        this.receivedProtocolFeatures = decodedInfoMessage.features;
+    }
+
     /**
      * Send an utf8 message to the server
      * */
@@ -542,7 +595,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     /**
      * Getter for the internal cryo session id
      * */
-    public get session_id(): UUID {
+    public get session_id(): bigint {
         return this.sid;
     }
 
