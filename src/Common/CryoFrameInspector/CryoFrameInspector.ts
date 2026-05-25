@@ -1,5 +1,5 @@
-import {CryoBuffer} from "../Wrappers/CryoBuffer.js";
 import {BinaryMessageType, BufferUtil} from "cryo-protocol";
+import {CryoBuffer} from "../Wrappers/CryoBuffer.js";
 
 const typeToStringMap: Record<BinaryMessageType, string> = {
     255: "endpoint_info",
@@ -12,7 +12,8 @@ const typeToStringMap: Record<BinaryMessageType, string> = {
     0: "transaction_start",
     1: "transaction_chunk",
     2: "transaction_finish",
-    3: "transaction_flow"
+    3: "transaction_flow",
+    4: "transaction_chunk_request",
 }
 
 export class CryoFrameInspector {

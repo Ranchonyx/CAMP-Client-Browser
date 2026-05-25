@@ -11,6 +11,7 @@ export interface ICryoClientWebsocketSessionEvents {
     "tx-start": [txId: number, txName: string];
     "tx-chunk": [txId: number, data: Buffer];
     "tx-finish": number;
+    "tx-fetch": [txId: number, start: number, end: number];
 }
 
 export type PendingBinaryMessage = {

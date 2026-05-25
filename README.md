@@ -1,30 +1,9 @@
-# Cryo-Client-browser
+# Cryo
 
-#### Part of the Cryo Ecosystem
+Cryo is a small binary protocol for sending arbitrary messages, large data and real-time information over WebSocket.
+It uses fixed frame types for acknowledgements, heartbeats, UTF-8 text, binary payloads and streamed transactions.
 
-```
- █████ ██████  ██   ██  █████  
-██     ██   ██  ██ ██  ██   ██ 
-██     ██████    ███   ██   ██ 
-██     ██ ██     ██    ██   ██ 
-██     ██  ██    ██    ██   ██ 
- █████ ██   ██   ██     █████  
-                Browser client implementation
-```
-
----
-
-## Cryo / Overview
-
-Cryo is a lightweight, efficient Websocket framework intended for building real-time systems
-
-Client implementations are available for:
-
-- **TypeScript / JavaScript** under **Node.Js**
-- **TypeScript / JavaScript** under **modern Browsers**
-- **C#** under **.NET 8.0**
-
-A server implementation is available for **TypeScript / JavaScript** under **Node.Js**
+This is an implementation of the Cryo protocol specified at [Cryo-Protocol](https://github.com/Ranchonyx/Cryo-Protocol)
 
 ## Cryo-Client-Browser / Overview
 
@@ -38,9 +17,9 @@ It provides access incoming communication via events
 
 ## Setup
 
-To set up a Cryo Client, simply import the ``cryo`` function from the ``cryo-client-browser`` package.
+To set up a Cryo Client, simply import the `cryo` function from the ``cryo-client-browser`` package.
 
-The ``cryo``-function takes two arguments:
+The `cryo`-function takes two arguments:
 
 - host
     - a required host string
@@ -54,22 +33,24 @@ The ``cryo``-function takes two arguments:
 
 ### Public methods
 
-| Name          | Parameter                                   | Description                                | Returns                 |
-|---------------|---------------------------------------------|--------------------------------------------|-------------------------|
-| SendUTF8      | message: string                             | Sends an UTF8 string to the server         | Promise<void>           |
-| SendBinary    | message: CryoBuffer                         | Send arbitrary binary data to the server   | Promise<void>           |
-| Stream        | source: ReadableStream, streamName?: string | Stream a ReadableStream to the server      | Promise<void>           |
-| WaitForStream | streamName?: string, timeout?: number       | Wait for a named stream from the server    | Promise<ReadableStream> |
-| Close         |                                             | Closes the underlying Websocket connection | Promise<void>           |
+| Name                   | Parameter                              | Description                                | Returns           |
+|------------------------|----------------------------------------|--------------------------------------------|-------------------|
+| SendUTF8               | message: string                        | Streams a Readable to the server           |                   |
+| SendBinary             | message: CryoBuffer                    | Streams a Readable to the server           |                   |
+| Stream                 | source: Readable, name?: string        | Streams a Readable to the server           |                   |
+| WaitForStream          | streamName?: string , timeout?: number | Waits for a named stream                   | Promise<Readable> |
+| SetIncomingFlowControl | behaviour: TX_PULL \| TX_PUSH          | Sets the remote flow control               |                   |   
+| Close                  |                                        | Closes the underlying Websocket connection |                   |
+| Destroy                | code?: number, message?: string        | Tears down the session                     |                   |
 
 ### Data Events
 
 These events are emitted when the server-side session receives data from a client-side session
 
-| Name           | Parameter                      | Description                                                    |
-|----------------|--------------------------------|----------------------------------------------------------------|
-| message-utf8   | string                         | Emitted, when the session receives a utf8 text message         |
-| message-binary | CryoBuffer                     | Emitted, when the session receives an arbitrary binary message |
+| Name           | Parameter  | Description                                                    |
+|----------------|------------|----------------------------------------------------------------|
+| message-utf8   | string     | Emitted, when the session receives a utf8 text message         |
+| message-binary | CryoBuffer | Emitted, when the session receives an arbitrary binary message |
 
 ### Meta events
 

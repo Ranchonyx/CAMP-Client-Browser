@@ -6,17 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/typings/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dist/typings/index.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/esbuild.exe" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/esbuild.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/bin/esbuild" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/esbuild/bin/esbuild" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/lib/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/esbuild/lib/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/esbuild/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,6 +256,25 @@
       <workItem from="1779187392963" duration="12000" />
       <workItem from="1779187425640" duration="41000" />
       <workItem from="1779187476688" duration="2000" />
+      <workItem from="1779187505530" duration="122000" />
+      <workItem from="1779542197802" duration="232000" />
+      <workItem from="1779635481942" duration="6000" />
+      <workItem from="1779635683940" duration="64000" />
+      <workItem from="1779635868755" duration="17000" />
+      <workItem from="1779638143210" duration="315000" />
+      <workItem from="1779638519178" duration="4000" />
+      <workItem from="1779638696875" duration="11000" />
+      <workItem from="1779638873659" duration="24000" />
+      <workItem from="1779638960822" duration="68000" />
+      <workItem from="1779639124938" duration="29000" />
+      <workItem from="1779639907848" duration="138000" />
+      <workItem from="1779640055667" duration="1028000" />
+      <workItem from="1779641316881" duration="6000" />
+      <workItem from="1779641388682" duration="35000" />
+      <workItem from="1779667669659" duration="187000" />
+      <workItem from="1779667871689" duration="44000" />
+      <workItem from="1779667925261" duration="74000" />
+      <workItem from="1779669111484" duration="9000" />
     </task>
     <servers />
   </component>
