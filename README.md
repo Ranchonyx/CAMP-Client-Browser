@@ -33,15 +33,16 @@ The `cryo`-function takes two arguments:
 
 ### Public methods
 
-| Name                   | Parameter                              | Description                                | Returns           |
-|------------------------|----------------------------------------|--------------------------------------------|-------------------|
-| SendUTF8               | message: string                        | Streams a Readable to the server           |                   |
-| SendBinary             | message: CryoBuffer                    | Streams a Readable to the server           |                   |
-| Stream                 | source: ReadableStream, name?: string  | Streams a Readable to the server           |                   |
-| WaitForStream          | streamName?: string , timeout?: number | Waits for a named stream                   | Promise<Readable> |
-| SetIncomingFlowControl | behaviour: TX_PULL \| TX_PUSH          | Sets the remote flow control               |                   |   
-| Close                  |                                        | Closes the underlying Websocket connection |                   |
-| Destroy                | code?: number, message?: string        | Tears down the session                     |                   |
+| Name                   | Parameter                                      | Description                                | Returns             |
+|------------------------|------------------------------------------------|--------------------------------------------|---------------------|
+| SendUTF8               | message: string                                | Streams a Readable to the server           |                     |
+| SendBinary             | message: CryoBuffer                            | Streams a Readable to the server           |                     |
+| Stream                 | source: ReadableStream, name?: string          | Streams a Readable to the server           |                     |
+| WaitForStream          | streamName?: string , timeout?: number         | Waits for a named stream                   | Promise<CryoStream> |
+| SetIncomingFlowControl | behaviour: TX_PULL \| TX_PUSH                  | Sets the remote flow control               |                     |   
+| StreamFetchRange       | stream: CryoStream, start: number, end: number | Fetches chunk start-end of a given stream  |                     |
+| Close                  |                                                | Closes the underlying Websocket connection |                     |
+| Destroy                | code?: number, message?: string                | Tears down the session                     |                     |
 
 ### Data Events
 

@@ -686,6 +686,17 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         });
     }
 
+    public async StreamFetchRange(stream: CryoStream<Uint8Array>, start: number, end: number): Promise<void> {
+        const fetch_ack_id = this.inc_get_ack();
+        const fetch_frame = TXFetchFrame.Serialize(this.sid, fetch_ack_id, stream.txId, start, end);
+        this.server_ack_tracker.Track(fetch_ack_id, {
+            message: fetch_frame,
+            timestamp: Date.now()
+        });
+
+        await this.Send(fetch_frame);
+    }
+
     //noinspection JSUnusedGlobalSymbols
     public async SetIncomingFlowControl(behaviour: CRYO_FLOW_BEHAVIOUR) {
         const flow_ack_id = this.inc_get_ack();
