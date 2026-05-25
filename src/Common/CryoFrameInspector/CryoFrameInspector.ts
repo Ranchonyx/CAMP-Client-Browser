@@ -1,5 +1,4 @@
-import {BinaryMessageType, BufferUtil} from "cryo-protocol";
-import {CryoBuffer} from "../Wrappers/CryoBuffer.js";
+import {BinaryMessageType, BufferUtil, CryoBuffer} from "cryo-protocol";
 
 const typeToStringMap: Record<BinaryMessageType, string> = {
     255: "endpoint_info",

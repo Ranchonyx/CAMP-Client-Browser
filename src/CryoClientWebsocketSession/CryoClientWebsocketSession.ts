@@ -2,7 +2,6 @@ import {CryoFrameInspector} from "../Common/CryoFrameInspector/CryoFrameInspecto
 import {CreateDebugLogger, DebugLoggerFunction} from "../Common/Util/CreateDebugLogger.js";
 import {ICryoClientWebsocketSessionEvents, PendingBinaryMessage} from "./types/CryoClientWebsocketSession.js";
 import {AckTracker} from "../Common/AckTracker/AckTracker.js";
-import {CryoBuffer} from "../Common/Wrappers/CryoBuffer.js";
 import {CryoEventEmitter} from "../Common/CryoEventEmitter/CryoEventEmitter.js";
 import {
     ACKFrame,
@@ -11,7 +10,7 @@ import {
     BufferUtil,
     ByeFrame,
     CRYO_FLOW_BEHAVIOUR,
-    CRYO_PROTOCOL_VERSION,
+    CRYO_PROTOCOL_VERSION, CryoBuffer,
     cryoNewId,
     EndpointInfoFrame,
     ErrorFrame,
@@ -32,7 +31,6 @@ enum CloseCode {
     CLOSE_CALE_HANDSHAKE = 4011
 }
 
-type Buffer = CryoBuffer;
 type Stream = {
     readable: ReadableStream<Uint8Array>;
     controller: ReadableStreamDefaultController<Uint8Array>;
@@ -123,7 +121,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         return this.current_ack++;
     }
 
-    private async HandleClose(code: number, reason: Buffer) {
+    private async HandleClose(code: number, reason: CryoBuffer) {
         this.log(`Websocket was closed. Code=${code} (${this.TranslateCloseCode(code)}), reason=${reason.toString("utf8")}.`);
 
         let current_attempt = 0;
@@ -199,7 +197,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     /**
      * Route a frame of any kind to its corresponding handler
      * */
-    private async routeFrame(frame: Buffer): Promise<void> {
+    private async routeFrame(frame: CryoBuffer): Promise<void> {
         const type = BufferUtil.GetType(frame);
         this.bytes_rx += frame.byteLength;
 
@@ -244,7 +242,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
                 await this.HandleTxFlowMessage(frame);
                 return;
             case BinaryMessageType.TX_FETCH:
-                this.HandleTxFetchMessage(frame);
+                await this.HandleTxFetchMessage(frame);
                 return;
             default:
                 this.log(`Unsupported binary message type ${type}!`);
@@ -271,10 +269,10 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
             });
         }
 
-        //Send the message buffer to the server
+        //Send the message CryoBuffer to the server
         try {
             ///@ts-ignore
-            this.socket.send(outgoing_message.buffer);
+            this.socket.send(outgoing_message.CryoBuffer);
         } catch (ex) {
             if (ex instanceof Error)
                 await this.HandleWSError(ex);
@@ -311,7 +309,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     /**
      * ACK the pending message if it matches the server's ACK
      * */
-    private async HandleAckMessage(message: Buffer): Promise<void> {
+    private async HandleAckMessage(message: CryoBuffer): Promise<void> {
         const decodedAckMessage = ACKFrame
             .Deserialize(message);
         const ack_id = decodedAckMessage.ack;
@@ -330,7 +328,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     /**
      * Extract payload from the binary message and emit the message event with the utf8 payload
      * */
-    private async HandleUTF8DataMessage(message: Buffer): Promise<void> {
+    private async HandleUTF8DataMessage(message: CryoBuffer): Promise<void> {
         const decodedDataMessage = Utf8DataFrame
             .Deserialize(message);
 
@@ -346,7 +344,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     /**
      * Extract payload from the binary message and emit the message event with the binary payload
      * */
-    private async HandleBinaryDataMessage(message: Buffer): Promise<void> {
+    private async HandleBinaryDataMessage(message: CryoBuffer): Promise<void> {
         const decodedDataMessage = BinaryDataFrame
             .Deserialize(message);
 
@@ -362,7 +360,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     /**
      * Handle the start of a transaction
      * */
-    private async HandleTxStartMessage(message: Buffer): Promise<void> {
+    private async HandleTxStartMessage(message: CryoBuffer): Promise<void> {
         const decodedStartFrame = TXStartFrame
             .Deserialize(message);
 
@@ -395,7 +393,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     /**
      * Handle the end of a transaction
      * */
-    private async HandleTxFinishMessage(message: Buffer): Promise<void> {
+    private async HandleTxFinishMessage(message: CryoBuffer): Promise<void> {
         const decodedFinishFrame = TXFinishFrame
             .Deserialize(message);
 
@@ -423,7 +421,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     /**
      * Handle a transaction chunk
      * */
-    private async HandleTxChunkMessage(message: Buffer): Promise<void> {
+    private async HandleTxChunkMessage(message: CryoBuffer): Promise<void> {
         const decodedChunkFrame = TXChunkFrame
             .Deserialize(message);
 
@@ -436,7 +434,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.emit("tx-chunk", [decodedChunkFrame.txId, decodedChunkFrame.payload]);
     }
 
-    private async HandleByeMessage(message: Buffer): Promise<void> {
+    private async HandleByeMessage(message: CryoBuffer): Promise<void> {
         const decodedByeMessage = ByeFrame
             .Deserialize(message);
 
@@ -449,7 +447,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.Destroy(4000, decodedByeMessage.reason);
     }
 
-    private async HandleEndpointInfoMessage(message: Buffer): Promise<void> {
+    private async HandleEndpointInfoMessage(message: CryoBuffer): Promise<void> {
         const decodedInfoMessage = EndpointInfoFrame
             .Deserialize(message);
 
@@ -470,7 +468,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.receivedProtocolFeatures = decodedInfoMessage.features;
     }
 
-    private async HandleTxFlowMessage(message: Buffer): Promise<void> {
+    private async HandleTxFlowMessage(message: CryoBuffer): Promise<void> {
         const decodedFlowFrame = TXFlowFrame
             .Deserialize(message);
 
@@ -483,7 +481,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.outgoingFlowControl = decodedFlowFrame.behaviour;
     }
 
-    private async HandleTxFetchMessage(message: Buffer): Promise<void> {
+    private async HandleTxFetchMessage(message: CryoBuffer): Promise<void> {
         const decodedFetchFrame = TXFetchFrame
             .Deserialize(message);
 
