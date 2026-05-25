@@ -7,15 +7,6 @@
     <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/typings/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dist/typings/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,6 +266,17 @@
       <workItem from="1779667871689" duration="44000" />
       <workItem from="1779667925261" duration="74000" />
       <workItem from="1779669111484" duration="9000" />
+      <workItem from="1779669182964" duration="528000" />
+      <workItem from="1779669925372" duration="29000" />
+      <workItem from="1779670017830" duration="136000" />
+      <workItem from="1779670172043" duration="6000" />
+      <workItem from="1779670236204" duration="9000" />
+      <workItem from="1779670448947" duration="8000" />
+      <workItem from="1779673904364" duration="39000" />
+      <workItem from="1779725577024" duration="62000" />
+      <workItem from="1779725938899" duration="53000" />
+      <workItem from="1779726278865" duration="157000" />
+      <workItem from="1779726482159" duration="2000" />
     </task>
     <servers />
   </component>

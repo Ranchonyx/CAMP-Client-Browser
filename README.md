@@ -37,7 +37,7 @@ The `cryo`-function takes two arguments:
 |------------------------|----------------------------------------|--------------------------------------------|-------------------|
 | SendUTF8               | message: string                        | Streams a Readable to the server           |                   |
 | SendBinary             | message: CryoBuffer                    | Streams a Readable to the server           |                   |
-| Stream                 | source: Readable, name?: string        | Streams a Readable to the server           |                   |
+| Stream                 | source: ReadableStream, name?: string  | Streams a Readable to the server           |                   |
 | WaitForStream          | streamName?: string , timeout?: number | Waits for a named stream                   | Promise<Readable> |
 | SetIncomingFlowControl | behaviour: TX_PULL \| TX_PUSH          | Sets the remote flow control               |                   |   
 | Close                  |                                        | Closes the underlying Websocket connection |                   |

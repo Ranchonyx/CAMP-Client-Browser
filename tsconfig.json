@@ -17,7 +17,8 @@
     "declaration": true,
     "declarationDir": "./dist/typings/"
 */
-    "lib": ["DOM", "ESNext"]
+    "lib": ["DOM", "ESNext"],
+    "customConditions": ["browser"]
   },
   "include": ["src"]
 }
