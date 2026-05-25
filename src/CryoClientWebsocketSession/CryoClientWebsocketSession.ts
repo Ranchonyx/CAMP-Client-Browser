@@ -386,7 +386,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
             claimed: false
         });
 
-        this.emit("tx-start", [decodedStartFrame.txId, decodedStartFrame.txName]);
+        this.emit("tx-start", [decodedStartFrame.txId, decodedStartFrame.txName, decodedStartFrame.byteLength]);
     }
 
     /**
@@ -646,7 +646,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
                 timeoutSig.removeEventListener("abort", onAbort);
             };
 
-            const tryResolveStream = (txId: number, txName: string): boolean => {
+            const tryResolveStream = (txId: number, txName: string, txLength: number | null): boolean => {
                 if (txName !== streamName)
                     return false;
 
@@ -664,20 +664,20 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
                 stream.claimed = true;
                 cleanup();
 
-                resolve(new CryoStream(stream.readable, txId, (txIdToDelete) => this.streams.delete(txIdToDelete)));
+                resolve(new CryoStream(stream.readable, txId, txLength, (txIdToDelete) => this.streams.delete(txIdToDelete)));
                 return true;
             };
 
-            const onTxStartListener = (data: [txId: number, txName: string]) => {
-                const [txId, txName] = data;
-                tryResolveStream(txId, txName);
+            const onTxStartListener = (data: [txId: number, txName: string, txLength: number | null]) => {
+                const [txId, txName, txLength] = data;
+                tryResolveStream(txId, txName, txLength);
             };
 
             for (const [txId, stream] of this.streams.entries()) {
                 if (stream.claimed)
                     continue;
 
-                if (tryResolveStream(txId, stream.name))
+                if (tryResolveStream(txId, stream.name, null))
                     return;
             }
 

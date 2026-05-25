@@ -2,6 +2,7 @@ export class CryoStream<T> extends ReadableStream<T> {
     public constructor(
         private source: ReadableStream<T>,
         public txId: number,
+        public byteLength: number | null,
         private onDeleteStream: (txId: number) => void
     ) {
         super({

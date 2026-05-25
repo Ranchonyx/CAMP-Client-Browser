@@ -8,7 +8,7 @@ export interface ICryoClientWebsocketSessionEvents {
     "disconnected": undefined;
     "reconnected": undefined;
 
-    "tx-start": [txId: number, txName: string];
+    "tx-start": [txId: number, txName: string, txLength: number | null];
     "tx-chunk": [txId: number, data: CryoBuffer];
     "tx-finish": number;
     "tx-fetch": [txId: number, start: number, end: number];
