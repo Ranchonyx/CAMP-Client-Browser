@@ -271,8 +271,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
 
         //Send the message CryoBuffer to the server
         try {
-            ///@ts-ignore
-            this.socket.send(outgoing_message.CryoBuffer);
+            this.socket.send(outgoing_message.buffer);
         } catch (ex) {
             if (ex instanceof Error)
                 await this.HandleWSError(ex);
