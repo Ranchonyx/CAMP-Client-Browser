@@ -1,4 +1,7 @@
-export class CryoStream<T> extends ReadableStream<T> {
+export class CryoStream<T = Uint8Array> extends ReadableStream<T> {
+    private firstChunkSize: number = -1;
+    private receivedChunks: number = 0;
+
     public constructor(
         private source: ReadableStream<T>,
         public txId: number,
@@ -19,6 +22,10 @@ export class CryoStream<T> extends ReadableStream<T> {
                         }
 
                         controller.enqueue(value);
+                        const sz = (value as Uint8Array).byteLength;
+                        this.receivedChunks++;
+                        if (this.firstChunkSize === -1)
+                            this.firstChunkSize = sz;
                     }
                 } catch (err) {
                     controller.error(err);
@@ -33,5 +40,13 @@ export class CryoStream<T> extends ReadableStream<T> {
                 onDeleteStream(this.txId);
             }
         });
+    }
+
+    public getRemainingChunks(): number | null {
+        if (!this.byteLength)
+            return null;
+
+        const MAX_CHUNK = Math.ceil(this.byteLength / this.firstChunkSize);
+        return MAX_CHUNK - this.receivedChunks;
     }
 }
