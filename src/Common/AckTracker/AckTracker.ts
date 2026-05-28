@@ -3,7 +3,7 @@ import {CryoBuffer} from "cryo-protocol";
 type PendingBinaryMessage = {
     timestamp: number;
     message: CryoBuffer;
-    payload?: string | CryoBuffer;
+    ackPromise?: PromiseWithResolvers<void>;
 }
 
 export class AckTracker {

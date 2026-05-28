@@ -46,6 +46,9 @@ export class CryoStream<T = Uint8Array> extends ReadableStream<T> {
         if (!this.byteLength)
             return null;
 
+        if (this.firstChunkSize === -1)
+            return Number.MAX_SAFE_INTEGER;
+
         const MAX_CHUNK = Math.ceil(this.byteLength / this.firstChunkSize);
         return MAX_CHUNK - this.receivedChunks;
     }

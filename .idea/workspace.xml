@@ -8,6 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,6 +292,20 @@
       <workItem from="1779731074437" duration="7000" />
       <workItem from="1779731843841" duration="311000" />
       <workItem from="1779732194512" duration="2000" />
+      <workItem from="1779732469420" duration="401000" />
+      <workItem from="1779733029281" duration="30000" />
+      <workItem from="1779862042908" duration="863000" />
+      <workItem from="1779867092419" duration="5000" />
+      <workItem from="1779889725162" duration="431000" />
+      <workItem from="1779890833749" duration="400000" />
+      <workItem from="1779946022910" duration="27000" />
+      <workItem from="1779946380904" duration="235000" />
+      <workItem from="1779946770505" duration="98000" />
+      <workItem from="1779946982375" duration="10000" />
+      <workItem from="1779947166197" duration="93000" />
+      <workItem from="1779947343086" duration="57000" />
+      <workItem from="1779947443778" duration="25000" />
+      <workItem from="1779947496746" duration="74000" />
     </task>
     <servers />
   </component>
