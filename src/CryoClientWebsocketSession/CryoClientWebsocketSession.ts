@@ -169,8 +169,6 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         //Send the first endpointInfo message
         const ack = this.inc_get_ack();
         const msg = EndpointInfoFrame.Serialize(this.sid, ack);
-        this.server_ack_tracker.Track(ack, {timestamp: Date.now(), message: msg});
-
         this.Send(msg);
     }
 
@@ -554,10 +552,6 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         const new_txid = this.inc_get_txid();
 
         const start_frame = TXStartFrame.Serialize(this.sid, start_ack_id, new_txid, streamName);
-        this.server_ack_tracker.Track(start_ack_id, {
-            message: start_frame,
-            timestamp: Date.now()
-        });
         await this.Send(start_frame);
 
         const reader = source.getReader();
@@ -578,10 +572,6 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
 
         const finish_ack_id = this.inc_get_ack();
         const finish_frame = TXFinishFrame.Serialize(this.sid, finish_ack_id, new_txid);
-        this.server_ack_tracker.Track(finish_ack_id, {
-            message: finish_frame,
-            timestamp: Date.now()
-        });
 
         await this.Send(finish_frame);
     }
@@ -609,10 +599,6 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
             const new_txid = this.inc_get_txid();
 
             const start_frame = TXStartFrame.Serialize(this.sid, start_ack_id, new_txid, streamName, totalSize);
-            this.server_ack_tracker.Track(start_ack_id, {
-                message: start_frame,
-                timestamp: Date.now()
-            });
             await this.Send(start_frame);
 
             let seq = 0;
@@ -629,12 +615,8 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
 
                 if (end >= chunks.length) {
                     const finish_ack_id = this.inc_get_ack();
-                    const finish_frame = TXFinishFrame.Serialize(this.sid, finish_ack_id, new_txid);
-                    this.server_ack_tracker.Track(finish_ack_id, {
-                        message: finish_frame,
-                        timestamp: Date.now()
-                    });
 
+                    const finish_frame = TXFinishFrame.Serialize(this.sid, finish_ack_id, new_txid);
                     await this.Send(finish_frame);
 
                     this.off("tx-fetch", fetchHandler);
@@ -721,10 +703,6 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     public async StreamFetchRange(stream: CryoStream<Uint8Array>, start: number, end: number): Promise<void> {
         const fetch_ack_id = this.inc_get_ack();
         const fetch_frame = TXFetchFrame.Serialize(this.sid, fetch_ack_id, stream.txId, start, end);
-        this.server_ack_tracker.Track(fetch_ack_id, {
-            message: fetch_frame,
-            timestamp: Date.now()
-        });
 
         await this.Send(fetch_frame);
     }
@@ -733,10 +711,6 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
     public async SetIncomingFlowControl(behaviour: CRYO_FLOW_BEHAVIOUR) {
         const flow_ack_id = this.inc_get_ack();
         const flow_frame = TXFlowFrame.Serialize(this.sid, flow_ack_id, behaviour);
-        this.server_ack_tracker.Track(flow_ack_id, {
-            message: flow_frame,
-            timestamp: Date.now()
-        });
 
         await this.Send(flow_frame);
     }
