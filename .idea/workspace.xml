@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -306,6 +302,11 @@
       <workItem from="1779947343086" duration="57000" />
       <workItem from="1779947443778" duration="25000" />
       <workItem from="1779947496746" duration="74000" />
+      <workItem from="1779947614224" duration="107000" />
+      <workItem from="1779947818728" duration="32000" />
+      <workItem from="1779948780566" duration="216000" />
+      <workItem from="1780697246812" duration="38000" />
+      <workItem from="1780697356276" duration="17000" />
     </task>
     <servers />
   </component>

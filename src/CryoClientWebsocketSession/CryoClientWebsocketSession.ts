@@ -172,8 +172,6 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.server_ack_tracker.Track(ack, {timestamp: Date.now(), message: msg});
 
         this.Send(msg);
-
-        setTimeout(() => this.emit("connected", undefined));
     }
 
     private AttachListenersToSocket(socket: WebSocket) {
@@ -298,6 +296,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.log(`OUT ${CryoFrameInspector.Inspect(outgoing_message)}`);
         if (!ackPromise)
             return Promise.resolve();
+
         return ackPromise.promise;
     }
 
@@ -495,6 +494,8 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         this.log("Got protocol features: ", this.receivedProtocolFeatures.toString(2).padStart(64));
 
         this.receivedProtocolFeatures = decodedInfoMessage.features;
+
+        this.emit("connected", undefined);
     }
 
     private async HandleTxFlowMessage(message: CryoBuffer): Promise<void> {
