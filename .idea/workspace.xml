@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +29,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -308,6 +311,16 @@
       <workItem from="1780697246812" duration="38000" />
       <workItem from="1780697356276" duration="17000" />
       <workItem from="1780904680195" duration="141000" />
+      <workItem from="1780905562405" duration="202000" />
+      <workItem from="1780906786739" duration="3000" />
+      <workItem from="1780906811408" duration="3000" />
+      <workItem from="1780906821753" duration="5000" />
+      <workItem from="1780906890053" duration="6000" />
+      <workItem from="1780906927860" duration="5000" />
+      <workItem from="1780908996310" duration="59000" />
+      <workItem from="1780909426754" duration="218000" />
+      <workItem from="1780909752025" duration="134000" />
+      <workItem from="1780910372939" duration="12000" />
     </task>
     <servers />
   </component>

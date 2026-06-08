@@ -455,7 +455,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         if (!this.streams.has(decodedChunkFrame.txId))
             return;
 
-        this.streams.get(decodedChunkFrame.txId)!.controller.enqueue(decodedChunkFrame.payload.buffer);
+        this.streams.get(decodedChunkFrame.txId)!.controller.enqueue(decodedChunkFrame.payload.buffer.slice());
 
         this.emit("tx-chunk", [decodedChunkFrame.txId, decodedChunkFrame.payload]);
     }
@@ -578,30 +578,30 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
 
     private async StreamPull(source: ReadableStream<Uint8Array>, streamName: string): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
+            const start_ack_id = this.inc_get_ack();
+            const new_txid = this.inc_get_txid();
+
             let totalSize = 0;
-            const chunks: Uint8Array[] = [];
+            const chunk_frames: CryoBuffer[] = [];
 
             const reader = source.getReader();
             try {
+                let i = 0;
                 while (true) {
                     const {value, done} = await reader.read();
                     if (done)
                         break;
 
-                    chunks.push(value);
+                    chunk_frames.push(TXChunkFrame.Serialize(this.sid, new_txid, i++, new CryoBuffer(value)));
                     totalSize += value.byteLength;
                 }
             } finally {
                 reader.releaseLock();
             }
 
-            const start_ack_id = this.inc_get_ack();
-            const new_txid = this.inc_get_txid();
-
             const start_frame = TXStartFrame.Serialize(this.sid, start_ack_id, new_txid, streamName, totalSize);
             await this.Send(start_frame);
 
-            let seq = 0;
             const fetchHandler = async (params: [txId: number, start: number, end: number]) => {
                 const [txId, start, end] = params;
 
@@ -609,11 +609,10 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
                     return;
 
                 for (let i = start; i < end; i++) {
-                    const chunk_frame = TXChunkFrame.Serialize(this.sid, new_txid, seq++, new CryoBuffer(chunks[i]));
-                    await this.Send(chunk_frame);
+                    await this.Send(chunk_frames[i]);
                 }
 
-                if (end >= chunks.length) {
+                if (end >= chunk_frames.length) {
                     const finish_ack_id = this.inc_get_ack();
 
                     const finish_frame = TXFinishFrame.Serialize(this.sid, finish_ack_id, new_txid);
@@ -645,10 +644,10 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
      * @param timeout Optionally, how long to wait for the server to start the transaction
      * @returns {Promise<ReadableStream<Uint8Array>>} A Promise which will be resolved with a {@link{ReadableStream}}
      * */
-    public async WaitForStream(streamName: string = "anonymous", timeout: number = 1000): Promise<CryoStream<Uint8Array>> {
+    public async WaitForStream(streamName: string = "anonymous", timeout: number = 1000): Promise<CryoStream> {
         const timeoutSig = AbortSignal.timeout(timeout);
 
-        return new Promise<CryoStream<Uint8Array>>((resolve, reject) => {
+        return new Promise<CryoStream>((resolve, reject) => {
             const onAbort = () => {
                 this.off("tx-start", onTxStartListener);
                 timeoutSig.removeEventListener("abort", onAbort);
@@ -700,7 +699,7 @@ export class CryoClientWebsocketSession extends CryoEventEmitter<ICryoClientWebs
         });
     }
 
-    public async StreamFetchRange(stream: CryoStream<Uint8Array>, start: number, end: number): Promise<void> {
+    public async StreamFetchRange(stream: CryoStream, start: number, end: number): Promise<void> {
         const fetch_ack_id = this.inc_get_ack();
         const fetch_frame = TXFetchFrame.Serialize(this.sid, fetch_ack_id, stream.txId, start, end);
 

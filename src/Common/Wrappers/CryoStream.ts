@@ -1,9 +1,9 @@
-export class CryoStream<T = Uint8Array> extends ReadableStream<T> {
+export class CryoStream extends ReadableStream<Uint8Array> {
     private firstChunkSize: number = -1;
     private receivedChunks: number = 0;
 
     public constructor(
-        private source: ReadableStream<T>,
+        private source: ReadableStream<Uint8Array>,
         public txId: number,
         public byteLength: number | null,
         private onDeleteStream: (txId: number) => void
