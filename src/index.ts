@@ -1,4 +1,4 @@
-import {CryoClientWebsocketSession} from "./CryoClientWebsocketSession/CryoClientWebsocketSession.js";
+import {CAMPClientWebsocketSession} from "./CryoClientWebsocketSession/CAMPClientWebsocketSession.js";
 
 /**
  * Create a Cryo client
@@ -7,5 +7,5 @@ import {CryoClientWebsocketSession} from "./CryoClientWebsocketSession/CryoClien
  * @param timeout - How long to wait until the client stops establishing a connection
  * */
 export async function cryo(host: string, bearer: string, timeout: number = 5000) {
-    return CryoClientWebsocketSession.Connect(host, bearer, timeout);
+    return CAMPClientWebsocketSession.Connect(host, bearer, timeout);
 }

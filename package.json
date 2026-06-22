@@ -26,6 +26,6 @@
     "prepack": "node build.mjs"
   },
   "dependencies": {
-    "cryo-protocol": "^1.4.1"
+    "camp-protocol": "^1.1.1"
   }
 }

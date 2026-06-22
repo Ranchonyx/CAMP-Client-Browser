@@ -29,7 +29,7 @@ The `cryo`-function takes two arguments:
     - an optional timeout value, indicating how long the client should wait until a connection request to the server is
       aborted
 
-## CryoClientWebsocketSession / Overview
+## CAMPClientWebsocketSession / Overview
 
 ### Public methods
 
@@ -38,9 +38,9 @@ The `cryo`-function takes two arguments:
 | SendUTF8               | message: string                                | Streams a Readable to the server           |                     |
 | SendBinary             | message: CryoBuffer                            | Streams a Readable to the server           |                     |
 | Stream                 | source: ReadableStream, name?: string          | Streams a Readable to the server           |                     |
-| WaitForStream          | streamName?: string , timeout?: number         | Waits for a named stream                   | Promise<CryoStream> |
+| WaitForStream          | streamName?: string , timeout?: number         | Waits for a named stream                   | Promise<CAMPStream> |
 | SetIncomingFlowControl | behaviour: TX_PULL \| TX_PUSH                  | Sets the remote flow control               |                     |   
-| StreamFetchRange       | stream: CryoStream, start: number, end: number | Fetches chunk start-end of a given stream  |                     |
+| StreamFetchRange       | stream: CAMPStream, start: number, end: number | Fetches chunk start-end of a given stream  |                     |
 | Close                  |                                                | Closes the underlying Websocket connection |                     |
 | Destroy                | code?: number, message?: string                | Tears down the session                     |                     |
 

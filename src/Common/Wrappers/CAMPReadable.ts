@@ -1,11 +1,11 @@
-export class CryoStream extends ReadableStream<Uint8Array> {
+export class CAMPReadable extends ReadableStream<Uint8Array> {
     private firstChunkSize: number = -1;
     private receivedChunks: number = 0;
 
     public constructor(
         private source: ReadableStream<Uint8Array>,
         public txId: number,
-        public byteLength: number | null,
+        public byteLength: bigint | null,
         private onDeleteStream: (txId: number) => void
     ) {
         super({
@@ -49,7 +49,7 @@ export class CryoStream extends ReadableStream<Uint8Array> {
         if (this.firstChunkSize === -1)
             return Number.MAX_SAFE_INTEGER;
 
-        const MAX_CHUNK = Math.ceil(this.byteLength / this.firstChunkSize);
+        const MAX_CHUNK = Math.ceil(Number(this.byteLength) / this.firstChunkSize);
         return MAX_CHUNK - this.receivedChunks;
     }
 }

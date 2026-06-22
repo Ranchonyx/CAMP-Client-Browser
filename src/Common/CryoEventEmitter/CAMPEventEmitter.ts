@@ -2,7 +2,7 @@ import Guard from "../Util/Guard.js";
 
 type Listener<T> = (payload: T) => void;
 
-export class CryoEventEmitter<EventMap extends Record<string, any> = Record<string, any>> {
+export class CAMPEventEmitter<EventMap extends Record<string, any> = Record<string, any>> {
     private target = new EventTarget();
 
     private listeners = new Map<

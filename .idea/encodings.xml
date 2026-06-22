@@ -7,12 +7,12 @@
     <file url="file://$PROJECT_DIR$/package.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Common/CryoBinaryMessage/CryoFrameFormatter.ts" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/Common/CryoEventEmitter/CryoEventEmitter.ts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Common/CryoEventEmitter/CAMPEventEmitter.ts" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Common/Util/CreateDebugLogger.ts" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Common/Util/Guard.ts" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Common/Wrappers/CryoBuffer.ts" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/CryoClientWebsocketSession/CAMPClientWebsocketSession.ts" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Util/DebugLogger/CreateDebugLogger.ts" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Util/Guard.ts" charset="UTF-8" />

@@ -1,8 +1,8 @@
-import {CryoBuffer} from "cryo-protocol";
+import {CAMPBuffer} from "camp-protocol";
 
 type PendingBinaryMessage = {
     timestamp: number;
-    message: CryoBuffer;
+    message: CAMPBuffer;
     ackPromise?: PromiseWithResolvers<void>;
 }
 

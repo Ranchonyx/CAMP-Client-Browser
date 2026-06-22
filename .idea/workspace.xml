@@ -5,11 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/Namespaces/CAMP.Base.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/Namespaces/CAMP.Transaction.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/AckTracker/AckTracker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/CryoEventEmitter/CryoEventEmitter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoEventEmitter/CAMPEventEmitter.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Common/Wrappers/CryoStream.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Wrappers/CAMPStream.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CryoClientWebsocketSession.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -321,6 +332,13 @@
       <workItem from="1780909426754" duration="218000" />
       <workItem from="1780909752025" duration="134000" />
       <workItem from="1780910372939" duration="12000" />
+      <workItem from="1780911051990" duration="195000" />
+      <workItem from="1782129557157" duration="88000" />
+      <workItem from="1782129650885" duration="3000" />
+      <workItem from="1782129657400" duration="15000" />
+      <workItem from="1782129675780" duration="1120000" />
+      <workItem from="1782130815459" duration="2240000" />
+      <workItem from="1782133157097" duration="1339000" />
     </task>
     <servers />
   </component>

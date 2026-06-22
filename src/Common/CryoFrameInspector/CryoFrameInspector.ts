@@ -1,6 +1,6 @@
-import {BinaryMessageType, BufferUtil, CryoBuffer} from "cryo-protocol";
+import {CAMPFrameType, BufferUtil, CAMPBuffer} from "camp-protocol";
 
-const typeToStringMap: Record<BinaryMessageType, string> = {
+const typeToStringMap: Record<CAMPFrameType, string> = {
     255: "endpoint_info",
     254: "bye",
     253: "ack",
@@ -11,28 +11,28 @@ const typeToStringMap: Record<BinaryMessageType, string> = {
     0: "transaction_start",
     1: "transaction_chunk",
     2: "transaction_finish",
-    3: "transaction_flow",
-    4: "transaction_chunk_request",
+    3: "transaction_chunk_request",
+    4: "transaction_cancel",
 }
 
-export class CryoFrameInspector {
-    public static Inspect(message: CryoBuffer): string {
+export class CAMPFrameInspector {
+    public static Inspect(message: CAMPBuffer): string {
         const sid = BufferUtil.GetSid(message);
         const type = BufferUtil.GetType(message);
         const type_str = typeToStringMap[type] || "unknown";
         const ack = BufferUtil.GetAck(message);
 
-        //For Cryo.Transaction
-        if (type >= BinaryMessageType.TX_START && type <= BinaryMessageType.TX_FLOW) {
+        //For CAMP.Transaction
+        if (type >= CAMPFrameType.TX_START && type <= CAMPFrameType.TX_CANCEL) {
             switch (type) {
-                case BinaryMessageType.TX_START:
+                case CAMPFrameType.TX_START:
                     return `[type=${type_str}, sid=${sid},ack=${ack},txid=${BufferUtil.Transaction.GetTxId(message)},name=${BufferUtil.Transaction.GetTxName(message)}]`;
-                case BinaryMessageType.TX_FINISH:
+                case CAMPFrameType.TX_FINISH:
                     return `[type=${type_str}, sid=${sid},ack=${ack},txid=${BufferUtil.Transaction.GetTxId(message)}]`;
-                case BinaryMessageType.TX_CHUNK:
+                case CAMPFrameType.TX_CHUNK:
                     return `[type=${type_str}, sid=${sid},txid=${BufferUtil.Transaction.GetChunkTxId(message)},payload[0..15]=${BufferUtil.Transaction.GetChunkPayload(message, "hex").substring(0, 0xf)}]`;
-                case BinaryMessageType.TX_FLOW:
-                    return `[type=${type_str}, sid=${sid},ack=${ack},behaviour=${message.readUint8(10) === 0 ? "PUSH" : "PULL"}]`;
+                case CAMPFrameType.TX_CANCEL:
+                    return `[type=${type_str}, sid=${sid},ack=${ack},txid=${BufferUtil.Transaction.GetTxId(message)}]`;
             }
             throw new Error("Unknown type " + type);
         } else {
