@@ -1,12 +1,12 @@
 export class CAMPReadable extends ReadableStream<Uint8Array> {
-    private firstChunkSize: number = -1;
-    private receivedChunks: number = 0;
+    private receivedBytes = 0n;
+    private deleted = false;
 
     public constructor(
         private source: ReadableStream<Uint8Array>,
         public txId: number,
         public byteLength: bigint | null,
-        private onDeleteStream: (txId: number) => void
+        private onDeleteStream: (txId: number) => void,
     ) {
         super({
             start: async (controller) => {
@@ -15,41 +15,60 @@ export class CAMPReadable extends ReadableStream<Uint8Array> {
                 try {
                     while (true) {
                         const {value, done} = await reader.read();
+
                         if (done) {
                             controller.close();
-                            this.onDeleteStream(this.txId);
-                            return
+                            this.deleteOnce();
+                            return;
                         }
 
+                        this.receivedBytes += BigInt(value.byteLength);
                         controller.enqueue(value);
-                        const sz = (value as Uint8Array).byteLength;
-                        this.receivedChunks++;
-                        if (this.firstChunkSize === -1)
-                            this.firstChunkSize = sz;
                     }
                 } catch (err) {
                     controller.error(err);
-                    onDeleteStream(this.txId);
+                    this.deleteOnce();
                 } finally {
                     reader.releaseLock();
                 }
             },
+
             cancel: async (reason) => {
                 await this.source.cancel(reason).catch(() => {
                 });
-                onDeleteStream(this.txId);
-            }
+                this.deleteOnce();
+            },
         });
     }
 
-    public getRemainingChunks(): number | null {
-        if (!this.byteLength)
+    private deleteOnce() {
+        if (this.deleted)
+            return;
+
+        this.deleted = true;
+        this.onDeleteStream(this.txId);
+    }
+
+    public getReceivedBytes(): bigint {
+        return this.receivedBytes;
+    }
+
+    public getRemainingBytes(): bigint | null {
+        if (this.byteLength === null)
             return null;
 
-        if (this.firstChunkSize === -1)
-            return Number.MAX_SAFE_INTEGER;
+        const remaining = this.byteLength - this.receivedBytes;
+        return remaining > 0n ? remaining : 0n;
+    }
 
-        const MAX_CHUNK = Math.ceil(Number(this.byteLength) / this.firstChunkSize);
-        return MAX_CHUNK - this.receivedChunks;
+    public isComplete(): boolean {
+        return this.byteLength !== null && this.receivedBytes >= this.byteLength;
+    }
+
+    public getProgress(): number | null {
+        if (this.byteLength === null || this.byteLength === 0n)
+            return null;
+
+        return Number(this.receivedBytes) / Number(this.byteLength);
     }
 }
