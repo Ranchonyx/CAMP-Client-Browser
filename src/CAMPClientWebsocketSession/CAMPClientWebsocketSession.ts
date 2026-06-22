@@ -1,8 +1,7 @@
-import {CAMPFrameInspector} from "../Common/CryoFrameInspector/CryoFrameInspector.js";
+import {CAMPFrameInspector} from "../Common/CAMPFrameInspector/CAMPFrameInspector.js";
 import {CreateDebugLogger, DebugLoggerFunction} from "../Common/Util/CreateDebugLogger.js";
-import {ICryoClientWebsocketSessionEvents} from "./types/CryoClientWebsocketSession.js";
 import {AckTracker} from "../Common/AckTracker/AckTracker.js";
-import {CAMPEventEmitter} from "../Common/CryoEventEmitter/CAMPEventEmitter.js";
+import {CAMPEventEmitter} from "../Common/CAMPEventEmitter/CAMPEventEmitter.js";
 import {
     CAMPFrameType,
     BufferUtil,
@@ -20,10 +19,31 @@ enum CloseCode {
     CLOSE_CALE_HANDSHAKE = 4011
 }
 
+export interface ICAMPClientWebsocketSessionEvents {
+    "message-utf8": string;
+    "message-binary": CAMPBuffer;
+    "message-error": string;
+    "closed": [number, string];
+    "connected": undefined;
+    "disconnected": undefined;
+    "reconnected": undefined;
+
+    "tx-start": [txId: number, txName: string, txLength: bigint | null];
+    "tx-chunk": [txId: number, data: CAMPBuffer];
+    "tx-finish": number;
+    "tx-fetch": [txId: number, start: bigint, end: bigint];
+}
+
+export type PendingBinaryMessage = {
+    timestamp: number;
+    message: CAMPBuffer;
+    payload?: string | CAMPBuffer;
+}
+
 /*
-* Cryo Websocket session layer. Handles Binary formatting and ACKs and whatnot
+* CAMP Websocket session layer. Handles Binary formatting and ACKs and whatnot
 * */
-export class CAMPClientWebsocketSession extends CAMPEventEmitter<ICryoClientWebsocketSessionEvents> {
+export class CAMPClientWebsocketSession extends CAMPEventEmitter<ICAMPClientWebsocketSessionEvents> {
     private server_ack_tracker = new AckTracker();
 
     private bytes_tx = 0;
@@ -40,7 +60,7 @@ export class CAMPClientWebsocketSession extends CAMPEventEmitter<ICryoClientWebs
     private static async ConstructSocket(host: string, timeout: number, bearer: string, sid: bigint): Promise<WebSocket> {
         const full_host_url = new URL(host);
         full_host_url.searchParams.set("authorization", `Bearer ${bearer}`);
-        full_host_url.searchParams.set("x-cryo-sid", String(sid));
+        full_host_url.searchParams.set("x-CAMP-sid", String(sid));
         const sck = new WebSocket(full_host_url);
         sck.binaryType = "arraybuffer";
 
@@ -66,8 +86,8 @@ export class CAMPClientWebsocketSession extends CAMPEventEmitter<ICryoClientWebs
     }
 
     private async HandleWSError(err: Error) {
-        this.log(`${err.name} Exception in CryoSocket: ${err.message}`);
-        this.socket.close(CloseCode.CLOSE_SERVER_ERROR, `CryoSocket ${this.sid} was closed due to an error.`);
+        this.log(`${err.name} Exception in CAMPSocket: ${err.message}`);
+        this.socket.close(CloseCode.CLOSE_SERVER_ERROR, `CAMPSocket ${this.sid} was closed due to an error.`);
     }
 
     private TranslateCloseCode(code: number): string {
@@ -144,11 +164,11 @@ export class CAMPClientWebsocketSession extends CAMPEventEmitter<ICryoClientWebs
         return func.bind(this);
     }
 
-    private forwardMessageStrOrBuf(source: CAMPEventEmitter, event: keyof ICryoClientWebsocketSessionEvents) {
+    private forwardMessageStrOrBuf(source: CAMPEventEmitter, event: keyof ICAMPClientWebsocketSessionEvents) {
         source.on(event, (message) => this.emit(event, message));
     }
 
-    private constructor(private host: string, private sid: bigint, private socket: WebSocket, private timeout: number, private bearer: string, private log: DebugLoggerFunction = CreateDebugLogger("CRYO_CLIENT_SESSION")) {
+    private constructor(private host: string, private sid: bigint, private socket: WebSocket, private timeout: number, private bearer: string, private log: DebugLoggerFunction = CreateDebugLogger("CAMP_CLIENT_SESSION")) {
         super();
 
         this.base = new CAMPBaseManager(
@@ -252,7 +272,7 @@ export class CAMPClientWebsocketSession extends CAMPEventEmitter<ICryoClientWebs
             });
         }
 
-        //Send the message CryoBuffer to the server
+        //Send the message CAMPBuffer to the server
         try {
             this.socket.send(outgoing_message.buffer);
         } catch (ex) {

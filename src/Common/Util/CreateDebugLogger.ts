@@ -1,7 +1,7 @@
 export type DebugLoggerFunction = (msg: string, ...params: unknown[]) => void;
 
 export function CreateDebugLogger(section: string): DebugLoggerFunction {
-    if (localStorage.getItem("CRYO_DEBUG")?.includes(section)) {
+    if (localStorage.getItem("CAMP_DEBUG")?.includes(section)) {
         return (msg: string, ...params: unknown[]) => {
             const err = new Error();
             const stack = err.stack?.split("\n");

@@ -7,7 +7,7 @@ import {
     EndpointInfoFrame, ErrorFrame, PingPongFrame, Utf8DataFrame, BufferUtil
 } from "camp-protocol";
 import {AckTracker} from "../../Common/AckTracker/AckTracker.js";
-import {CAMPEventEmitter} from "../../Common/CryoEventEmitter/CAMPEventEmitter.js";
+import {CAMPEventEmitter} from "../../Common/CAMPEventEmitter/CAMPEventEmitter.js";
 
 interface CAMPBaseManagerEvents {
     "ready": []

@@ -11,7 +11,7 @@ import {
     TXFinishFrame,
     TXStartFrame
 } from "camp-protocol";
-import {CAMPEventEmitter} from "../../Common/CryoEventEmitter/CAMPEventEmitter.js";
+import {CAMPEventEmitter} from "../../Common/CAMPEventEmitter/CAMPEventEmitter.js";
 import {CAMPReadable} from "../../Common/Wrappers/CAMPReadable.js";
 
 type Stream = {
