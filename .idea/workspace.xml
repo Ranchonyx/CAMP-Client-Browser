@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="885f51e0-5033-41af-998e-a7f0e6dd43cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/build.mjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/lib/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/lib/index.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/typings/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dist/typings/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/CryoEventEmitter/CAMPEventEmitter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CAMPEventEmitter/CAMPEventEmitter.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/CryoFrameInspector/CryoFrameInspector.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/CAMPFrameInspector/CAMPFrameInspector.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Common/Util/CreateDebugLogger.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Util/CreateDebugLogger.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/CAMPClientWebsocketSession.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/Namespaces/CAMP.Base.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/Namespaces/CAMP.Transaction.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CryoClientWebsocketSession/types/CryoClientWebsocketSession.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,11 +73,11 @@
       <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common\Util" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\CAMPClientWebsocketSession" />
       <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common\Util" />
       <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Util" />
       <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common\AckTracker" />
       <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common" />
-      <recent name="C:\Users\f.janetzki\FOSSProjects\CryoClientBrowser\src\Common\CryoFrameInspector" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -340,7 +326,7 @@
       <workItem from="1782129675780" duration="1120000" />
       <workItem from="1782130815459" duration="2240000" />
       <workItem from="1782133157097" duration="1820000" />
-      <workItem from="1782134993242" duration="1032000" />
+      <workItem from="1782134993242" duration="1128000" />
     </task>
     <servers />
   </component>

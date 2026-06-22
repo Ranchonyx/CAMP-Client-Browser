@@ -6,7 +6,7 @@ import {
     CAMPFrameType,
     BufferUtil,
     CAMPBuffer,
-    CAMPNewId,
+    CAMPNewId, EndpointInfoFrame,
 } from "camp-protocol";
 import {CAMPBaseManager} from "./Namespaces/CAMP.Base.js";
 import {CAMPTransactionManager} from "./Namespaces/CAMP.Transaction.js";
@@ -107,14 +107,14 @@ export class CAMPClientWebsocketSession extends CAMPEventEmitter<ICAMPClientWebs
         }
     }
 
-    private inc_get_txid(): number {
+    private next_txid(): number {
         if (this.current_txid + 1 > 0xffffffff)
             this.current_txid = 0;
 
         return this.current_txid++;
     }
 
-    private inc_get_ack(): number {
+    private next_ack(): number {
         if (this.current_ack + 1 > 0xffffffff)
             this.current_ack = 0;
 
@@ -174,7 +174,7 @@ export class CAMPClientWebsocketSession extends CAMPEventEmitter<ICAMPClientWebs
         this.base = new CAMPBaseManager(
             this.sid,
             this.bind(this.send),
-            this.bind(this.inc_get_ack),
+            this.bind(this.next_ack),
             this.bind(this.Destroy),
             (features) => this.receivedProtocolFeatures = features,
             this.server_ack_tracker
@@ -190,13 +190,17 @@ export class CAMPClientWebsocketSession extends CAMPEventEmitter<ICAMPClientWebs
             this.stream = new CAMPTransactionManager(
                 this.sid,
                 this.bind(this.send),
-                this.bind(this.inc_get_ack),
-                this.bind(this.inc_get_txid),
+                this.bind(this.next_ack),
+                this.bind(this.next_txid),
                 this.bind(this.Destroy),
                 () => this.receivedProtocolFeatures
             );
             this.emit("connected", undefined);
         });
+
+        //Then send the first endpointInfo message
+        const msg = EndpointInfoFrame.Serialize(this.sid, this.next_ack());
+        this.send(msg);
     }
 
     private AttachListenersToSocket(socket: WebSocket) {
