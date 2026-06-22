@@ -26,6 +26,6 @@
     "prepack": "node build.mjs"
   },
   "dependencies": {
-    "camp-protocol": "^1.1.1"
+    "camp-protocol": "^1.1.2"
   }
 }
