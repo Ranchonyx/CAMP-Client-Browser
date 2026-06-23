@@ -86,12 +86,12 @@ This category of events is emitted when the session state changes
 ## CAMP-Client / Example
 
 ```typescript
-import {CAMP} from "camp-client-browser";
+import {camp} from "camp-client-browser";
 
 const HOST = "localhost:8080";
 const TOKEN = "SOME_AUTH_TOKEN";
 
-const client = await CAMP(HOST, TOKEN, 10000);
+const client = await camp(HOST, TOKEN, 10000);
 client.on("connected", () => {
     console.info(`Successfully connected to ${HOST}`);
 });
