@@ -191,6 +191,7 @@ export class CAMPTransactionManager extends CAMPEventEmitter<CAMPTransactionMana
         public byteLength = 0n;
 
         private chunks: Uint8Array[] = [];
+        private disposed = false;
 
         constructor(
             private source: ReadableStream<Uint8Array>,
@@ -223,22 +224,31 @@ export class CAMPTransactionManager extends CAMPEventEmitter<CAMPTransactionMana
                 pull(controller) {
                     while (index < chunks.length) {
                         const chunk = chunks[index];
-                        const chunkStart = offset;
-                        const chunkEnd = offset + BigInt(chunk.byteLength) - 1n;
 
-                        offset += BigInt(chunk.byteLength);
+                        const chunkStart = offset;
+                        const chunkEnd = offset + BigInt(chunk.byteLength); // exclusive
+
+                        offset = chunkEnd;
                         index++;
 
-                        if (chunkEnd < start)
+                        if (chunkEnd <= start)
                             continue;
 
-                        if (chunkStart > end)
+                        if (chunkStart >= end) {
+                            controller.close();
                             return;
+                        }
 
-                        const lStart = start > chunkStart ? Number(start - chunkStart) : 0;
-                        const lEnd = end < chunkEnd ? Number(end - chunkStart) : 0;
+                        const lStart = start > chunkStart
+                            ? Number(start - chunkStart)
+                            : 0;
+
+                        const lEnd = end < chunkEnd
+                            ? Number(end - chunkStart)
+                            : chunk.byteLength;
 
                         controller.enqueue(chunk.subarray(lStart, lEnd));
+                        return;
                     }
 
                     controller.close();
@@ -247,7 +257,37 @@ export class CAMPTransactionManager extends CAMPEventEmitter<CAMPTransactionMana
         }
 
         public async dispose() {
+            if (this.disposed)
+                return;
+
             this.chunks = [];
+
+            this.disposed = true;
+        }
+    }
+
+    private async sendRange(tran: InstanceType<typeof this.PullTransaction>, txId: number, start: bigint, end: bigint, signal: AbortSignal) {
+        const rangeStream = tran.getRangedStream(start, end);
+        const reader = rangeStream.getReader();
+
+        let offset = start;
+        try {
+            while (true) {
+                signal.throwIfAborted();
+
+                const {value, done} = await reader.read();
+
+                if (done)
+                    break;
+
+                const chunkFrame = TXChunkFrame.Serialize(this.sid, txId, offset, new CAMPBuffer(value));
+
+                await this.send(chunkFrame);
+
+                offset += BigInt(value.byteLength);
+            }
+        } finally {
+            reader.releaseLock();
         }
     }
 
@@ -265,77 +305,77 @@ export class CAMPTransactionManager extends CAMPEventEmitter<CAMPTransactionMana
 
             let fetchHandler: ((params: [txId: number, start: bigint, end: bigint]) => Promise<void>) | null = null;
 
+            let done = false;
+            let chain = Promise.resolve();
+
             const cleanup = async () => {
+                if (done)
+                    return;
+
                 if (fetchHandler)
                     this.off("tx-fetch", fetchHandler);
 
+                controller.abort("cleanup");
                 this.outgoingStreams.delete(new_txid);
 
-                await tran.dispose();
-            }
-
-            try {
-                const start_frame = TXStartFrame.Serialize(this.sid, start_ack_id, new_txid, streamName, tran.byteLength, CAMP_FLOW_BEHAVIOUR.TX_PULL);
-                await this.send(start_frame);
-
-                await new Promise<void>((resolve) => {
-                    fetchHandler = async (params: [txId: number, start: bigint, end: bigint]) => {
-                        const [txId, start, end] = params;
-                        if (txId !== new_txid)
-                            return;
-
-                        try {
-                            signal.throwIfAborted();
-                            await this.sendRange(tran, txId, start, end, signal);
-
-                            if (end + 1n >= tran.byteLength) {
-                                const finish_ack_id = this.next_ack();
-                                const finish_frame = TXFinishFrame.Serialize(this.sid, finish_ack_id, new_txid);
-
-                                await this.send(finish_frame);
-                            }
-                        } catch {
-                            resolve();
-                        }
-
-                    }
-
-                    this.on("tx-fetch", fetchHandler);
+                await chain.catch(() => {
                 });
-            } finally {
-                await cleanup();
-            }
-        });
-    }
+                await tran.dispose();
+                done = true;
+            };
 
-    private async sendRange(tran: InstanceType<typeof this.PullTransaction>, txId: number, start: bigint, end: bigint, signal: AbortSignal) {
-        const rangeStream = tran.getRangedStream(start, end);
-        const reader = rangeStream.getReader();
-
-        let offset = start;
-        try {
-            while (true) {
+            const handleFetch = async (txId: number, start: bigint, end: bigint) => {
                 signal.throwIfAborted();
 
-                const {value, done} = await reader.read();
+                await this.sendRange(tran, txId, start, end, signal);
 
-                if (done)
-                    break;
+                if (end >= tran.byteLength) {
+                    await this.send(TXFinishFrame.Serialize(this.sid, this.next_ack(), new_txid));
 
-                const chunkFrame = TXChunkFrame.Serialize(
+                    await cleanup();
+                    resolve();
+                }
+            };
+
+            try {
+                const start_frame = TXStartFrame.Serialize(
                     this.sid,
-                    txId,
-                    offset,
-                    new CAMPBuffer(value)
+                    start_ack_id,
+                    new_txid,
+                    streamName,
+                    tran.byteLength,
+                    CAMP_FLOW_BEHAVIOUR.TX_PULL
                 );
 
-                await this.send(chunkFrame);
+                await this.send(start_frame);
 
-                offset += BigInt(value.byteLength);
+                fetchHandler = (params) => {
+                    chain = chain
+                        .then(async () => {
+                            if (done) return;
+
+                            const [txId, start, end] = params;
+
+                            if (txId !== new_txid)
+                                return;
+
+                            await handleFetch(txId, start, end);
+                        })
+                        .catch(async () => {
+                            await cleanup();
+                            resolve();
+                        });
+
+                    return chain;
+                };
+
+                this.on("tx-fetch", fetchHandler);
+
+            } catch {
+                await cleanup();
+                resolve();
             }
-        } finally {
-            reader.releaseLock();
-        }
+        });
     }
 
     public async handle(frame: CAMPBuffer) {

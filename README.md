@@ -18,9 +18,9 @@ It provides access incoming communication via events
 
 ## Setup
 
-To set up a CAMP Client, simply import the `CAMP` function from the ``CAMP-client-browser`` package.
+To set up a CAMP Client, simply import the `camp` function from the ``camp-client-browser`` package.
 
-The `CAMP`-function takes two arguments:
+The `camp`-function takes two arguments:
 
 - host
     - a required host string
@@ -34,25 +34,43 @@ The `CAMP`-function takes two arguments:
 
 ### Public methods
 
-| Name                   | Parameter                                      | Description                                | Returns             |
-|------------------------|------------------------------------------------|--------------------------------------------|---------------------|
-| SendUTF8               | message: string                                | Streams a Readable to the server           |                     |
-| SendBinary             | message: CAMPBuffer                            | Streams a Readable to the server           |                     |
-| Stream                 | source: ReadableStream, name?: string          | Streams a Readable to the server           |                     |
-| WaitForStream          | streamName?: string , timeout?: number         | Waits for a named stream                   | Promise<CAMPStream> |
-| SetIncomingFlowControl | behaviour: TX_PULL \| TX_PUSH                  | Sets the remote flow control               |                     |   
-| StreamFetchRange       | stream: CAMPStream, start: number, end: number | Fetches chunk start-end of a given stream  |                     |
-| Close                  |                                                | Closes the underlying Websocket connection |                     |
-| Destroy                | code?: number, message?: string                | Tears down the session                     |                     |
+| Name  | Parameter      | Description                   | Returns |
+|-------|----------------|-------------------------------|---------|
+| Close | reason: string | Closes the session gracefully |         |
+
+CAMP-Functionality is divided among namespaces as defined in ``CAMP``.
+
+#### Base
+
+Accessible via ``session.base.<method>(...);``
+
+| Name       | Parameter       | Description                              | Returns |
+|------------|-----------------|------------------------------------------|---------|
+| Ping       |                 | Pings the client                         |         |
+| SendUTF8   | data: string    | Sends the passed utf8 text to the client |         |
+| SendBinary | data: Buffer    | Sends the passed buffer to the client    |         |
+| SendError  | message: string | Send an error to the client              |         |
+
+#### Transaction
+
+Accessible via ``session.transaction.<method>(...);``
+
+| Name               | Parameter                                                                         | Description                                                 | Returns                 |
+|--------------------|-----------------------------------------------------------------------------------|-------------------------------------------------------------|-------------------------|
+| Stream             | source: Readable, options: { streamName: string, behaviour: CAMP_FLOW_BEHAVIOUR } | Streams a readable to the client                            |                         |
+| WaitForStream      | name: string, timeout: number                                                     | Waits for a named stream from client                        | Promise\<CAMPReadable\> |
+| StreamRequestRange | stream: CAMPReadable, start: bigint, end: bigint                                  | When in TX_PULL-mode, requests a byte range from the client |                         |
+| StreamCancel       | stream: CAMPReadable                                                              | Cancels a Stream                                            |                         |
 
 ### Data Events
 
 These events are emitted when the server-side session receives data from a client-side session
 
-| Name           | Parameter  | Description                                                    |
-|----------------|------------|----------------------------------------------------------------|
-| message-utf8   | string     | Emitted, when the session receives a utf8 text message         |
-| message-binary | CAMPBuffer | Emitted, when the session receives an arbitrary binary message |
+| Name           | Parameter    | Description                                                    |
+|----------------|--------------|----------------------------------------------------------------|
+| message-utf8   | string       | Emitted, when the session receives a utf8 text message         |
+| message-binary | CAMPBuffer   | Emitted, when the session receives an arbitrary binary message |
+| message-error  | data: string | Emitted, when the session receives an error message            |
 
 ### Meta events
 
@@ -68,7 +86,7 @@ This category of events is emitted when the session state changes
 ## CAMP-Client / Example
 
 ```typescript
-import {CAMP} from "CAMP-client-browser";
+import {CAMP} from "camp-client-browser";
 
 const HOST = "localhost:8080";
 const TOKEN = "SOME_AUTH_TOKEN";
