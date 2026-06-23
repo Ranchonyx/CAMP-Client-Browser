@@ -293,6 +293,10 @@ export class CAMPClientWebsocketSession extends CAMPEventEmitter<ICAMPClientWebs
         return ackPromise.promise;
     }
 
+    public get id(): bigint {
+        return this.sid;
+    }
+
     /**
      * Gracefully close the connection to the server
      * */
