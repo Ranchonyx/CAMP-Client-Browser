@@ -121,6 +121,16 @@ export class CAMPTransactionManager extends CAMPEventEmitter<CAMPTransactionMana
     }
 
     /**
+     * Cancels a stream
+     * @param stream The readable object returned by {@link WaitForStream}
+     * */
+    public async StreamCancel(stream: CAMPReadable): Promise<void> {
+        const encodedCancelFrame = TXCancelFrame.Serialize(this.sid, this.next_ack(), stream.txId);
+        await stream.cancel("Cancelled by client");
+        await this.send(encodedCancelFrame);
+    }
+
+    /**
      * Request a range of bytes from the stream - used when flow control = TX_PULL
      * @param stream The readable object returned by {@link WaitForStream}
      * @param start The starting index of bytes to be requested
